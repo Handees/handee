@@ -11,7 +11,6 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewScreen> {
   int _rating = 0;
-  var feedback_color = Colors.black54;
   final Map<String, bool> _feedback = {
     'Poor repairs': false,
     'Arrived late': false,
