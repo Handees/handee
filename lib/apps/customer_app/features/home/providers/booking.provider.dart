@@ -43,12 +43,13 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   Future<String> bookService({
     required JobCategory category,
+    required LocationData location,
   }) async {
+    //TODO: Change below to loading: WIP
     state = BookingState.loading;
     _category = category;
 
     final token = await _auth.currentUser!.getIdToken();
-    final location = await Location.instance.getLocation();
 
     return await _bookingService.bookService(
       token: token,

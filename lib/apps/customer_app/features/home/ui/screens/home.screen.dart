@@ -5,12 +5,14 @@ import 'package:handees/apps/customer_app/features/home/ui/widgets/search.dart';
 
 import 'package:handees/apps/customer_app/features/home/ui/widgets/swap_button.dart';
 import 'package:handees/apps/customer_app/features/home/ui/widgets/ongoing_service.dart';
+import 'package:handees/apps/customer_app/features/tracker/providers/customer_location.provider.dart';
 import 'package:handees/shared/data/handees/job_category.dart';
 import 'package:handees/shared/res/shapes.dart';
 import 'package:handees/shared/res/icons.dart';
 import 'package:handees/shared/routes/routes.dart';
 import 'package:handees/shared/services/auth_service.dart';
 import 'package:handees/shared/ui/widgets/custom_bottom_sheet.dart';
+import 'package:handees/shared/utils/utils.dart';
 
 import '../../providers/booking.provider.dart';
 import '../../providers/user.provider.dart';
@@ -18,14 +20,27 @@ import '../widgets/location_picker.dart';
 import '../widgets/pick_service_bottom_sheet.dart';
 import '../widgets/service_card.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(customerLocationProvider.notifier).initLocation();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     const horizontalPadding = 16.0;
 
     final user = ref.watch(userProvider);
+    final location = ref.watch(customerLocationProvider);
+
     const categories = JobCategory.values;
 
     return Scaffold(
@@ -266,12 +281,15 @@ class HomeScreen extends ConsumerWidget {
                                             .pushNamed(
                                                 CustomerAppRoutes.pickService)
                                             .then((res) {
-                                          if (res != null) {
+                                          if (res != null &&
+                                              location.latitude != null) {
+                                            dPrint("Called bookservice");
                                             ref
                                                 .read(bookingProvider.notifier)
                                                 .bookService(
-                                                    category:
-                                                        categories[index]);
+                                                  category: categories[index],
+                                                  location: location,
+                                                );
                                             Navigator.of(context).pushNamed(
                                                 CustomerAppRoutes.tracking);
                                           }

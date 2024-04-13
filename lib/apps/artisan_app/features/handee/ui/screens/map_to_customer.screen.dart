@@ -77,7 +77,6 @@ class _MapToCustomerScreenState extends ConsumerState<MapToCustomerScreen> {
     setCustomMarkerIcon();
     final location = ref.read(locationProvider);
     if (location.latitude != null && location.longitude != null) {
-      dPrint('yehhhh');
       getPolyPoints(LatLng(location.latitude!, location.longitude!));
     }
   }

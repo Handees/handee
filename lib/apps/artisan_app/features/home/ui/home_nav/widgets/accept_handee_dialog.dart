@@ -144,10 +144,11 @@ class AcceptHandeeDialog extends ConsumerWidget {
               child: FilledButton(
                 onPressed: () async {
                   ref.read(currentOfferProvider.notifier).changeOffer(offer);
+
                   ref
                       .read(artisanSocketProvider.notifier)
-                      .acceptOffer(offer.bookingId);
-                  
+                      .acceptOffer(offer.bookingId, location);
+
                   // pop the dialog box
                   Navigator.of(context).pop();
 
@@ -192,49 +193,42 @@ class AcceptHandeeDialog extends ConsumerWidget {
   }
 }
 
-class TestWidgetDial extends StatelessWidget
-{
+class TestWidgetDial extends StatelessWidget {
   final BuildContext externalContext;
-  const TestWidgetDial(
-    {
-      required this.externalContext,
-      super.key,
-    }
-  );
+  const TestWidgetDial({
+    required this.externalContext,
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     double meter = 5;
     return IDialog(
-      child: DialogContainer(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(
-                  "3 mins",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(width: 16.0),
-                Container(
-                  height: 5,
-                  width: 5,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                const SizedBox(width: 16.0),
-                Text(
-                  "$meter m",
-                  style: Theme.of(context).textTheme.titleMedium,
-                )
-              ]
+        child: DialogContainer(
+      child: Column(
+        children: [
+          Row(children: [
+            Text(
+              "3 mins",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(width: 16.0),
+            Container(
+              height: 5,
+              width: 5,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            const SizedBox(width: 16.0),
+            Text(
+              "$meter m",
+              style: Theme.of(context).textTheme.titleMedium,
             )
-          ],
-        ),
-      )
-    );
+          ])
+        ],
+      ),
+    ));
   }
 }

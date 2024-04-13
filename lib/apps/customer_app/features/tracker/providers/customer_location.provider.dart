@@ -8,12 +8,13 @@ final customerLocationProvider =
         (ref) => CustomerLocationStateNotifier(ref));
 
 class CustomerLocationStateNotifier extends StateNotifier<LocationData> {
-  final location = Location.instance;
+  final location = Location();
   bool _serviceEnabled = false;
   bool _backgroundModeEnabled = false;
   bool _handlerRegistered = false;
   PermissionStatus _permissionGranted = PermissionStatus.denied;
   StateNotifierProviderRef<CustomerLocationStateNotifier, LocationData> ref;
+
   CustomerLocationStateNotifier(this.ref) : super(LocationData.fromMap({}));
 
   void initLocation() async {
@@ -22,7 +23,9 @@ class CustomerLocationStateNotifier extends StateNotifier<LocationData> {
     final areLocationSettingsCompleted =
         sharedPrefs.getBool('locationSettingsCompleted');
 
-    if (areLocationSettingsCompleted == null || !areLocationSettingsCompleted) {
+    dPrint(areLocationSettingsCompleted);
+
+    if (areLocationSettingsCompleted == null || areLocationSettingsCompleted) {
       // Try to enable the location service
       _serviceEnabled = await location.serviceEnabled();
       if (!_serviceEnabled) {
@@ -49,13 +52,14 @@ class CustomerLocationStateNotifier extends StateNotifier<LocationData> {
       _backgroundModeEnabled = await location.isBackgroundModeEnabled();
       if (!_backgroundModeEnabled) {
         try {
-          _backgroundModeEnabled = await location.enableBackgroundMode();
+          _backgroundModeEnabled =
+              await location.enableBackgroundMode(enable: true);
         } catch (e) {
           dPrint('Background Location Service not enabled');
           ePrint(e.toString());
         }
       }
-
+      dPrint('Location inited');
       sharedPrefs.setBool('locationSettingsCompleted', true);
     }
 
@@ -64,8 +68,10 @@ class CustomerLocationStateNotifier extends StateNotifier<LocationData> {
       interval: 5000,
       distanceFilter: 5,
     );
+    dPrint("waiting for location");
     final currLocation = await location.getLocation();
-    state = currLocation;
+    dPrint(currLocation);
+    // state = currLocation;
     if (!_handlerRegistered) {
       location.onLocationChanged.listen((LocationData currLocation) {
         dPrint(currLocation);

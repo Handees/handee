@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:handees/apps/artisan_app/features/handee/utils/helpers.dart';
 import 'package:handees/apps/customer_app/features/home/providers/booking.provider.dart';
 import 'package:handees/apps/customer_app/features/tracker/providers/customer_location.provider.dart';
+import 'package:handees/apps/customer_app/services/sockets/customer_socket.dart';
 
 import 'package:handees/shared/res/shapes.dart';
 import 'package:handees/shared/routes/routes.dart';
@@ -25,21 +26,29 @@ class TrackingScreen extends ConsumerStatefulWidget {
 class _TrackingScreenState extends ConsumerState<TrackingScreen> {
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor artisanIcon = BitmapDescriptor.defaultMarker;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+  LatLng artisanLocation = const LatLng(6.5502, 3.3200);
 
   void setCustomMarkerIcon() async {
     Uint8List markerIcon =
         await Helpers.getBytesFromAsset("assets/icon/artisan_marker.png", 150);
     artisanIcon = BitmapDescriptor.fromBytes(markerIcon);
 
-    markerIcon =
-        await Helpers.getBytesFromAsset("assets/icon/position_marker.png", 55);
+    markerIcon = await Helpers.getBytesFromAsset("assets/icon/house.png", 120);
     destinationIcon = BitmapDescriptor.fromBytes(markerIcon);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    ref.read(customerLocationProvider.notifier).initLocation();
+    ref.read(customerSocketProvider).onArtisanLocationUpdate((data) {
+      dPrint(data);
+      // setState(() {
+      //   artisanLocation = LatLng(data["lat"], data["lon"]);
+      // });
+    });
+    setCustomMarkerIcon();
+    super.initState();
   }
 
   @override
@@ -48,6 +57,8 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
     final trackingState = ref.watch(bookingProvider);
     final model = ref.watch(bookingProvider.notifier);
     final location = ref.watch(customerLocationProvider);
+
+    dPrint(trackingState);
 
     switch (trackingState) {
       case BookingState.loading:
@@ -84,14 +95,16 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
 
     Set<Marker> markers = {
       Marker(
-        markerId: const MarkerId('Current Location'),
-        icon: artisanIcon,
-        position: const LatLng(6.5482, 3.3320),
+        markerId: const MarkerId('Customer Location'),
+        icon: destinationIcon,
+        position: location.latitude == null
+            ? const LatLng(6.5482, 3.3320)
+            : LatLng(location.latitude!, location.longitude!),
       ),
       Marker(
-        markerId: const MarkerId('Chicken Rep'),
-        position: LatLng(location.latitude!, location.longitude!),
-        icon: destinationIcon,
+        markerId: const MarkerId('Artisan'),
+        position: artisanLocation,
+        icon: artisanIcon,
       )
     };
 
@@ -106,9 +119,20 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
             )
           : Center(
               child: GoogleMap(
+                onMapCreated: (GoogleMapController controller) async {
+                  Future.delayed(
+                    const Duration(seconds: 1),
+                    () => setState(() {
+                      controller.animateCamera(CameraUpdate.newLatLngBounds(
+                        Helpers.bounds(markers),
+                        20,
+                      ));
+                    }),
+                  );
+                },
                 initialCameraPosition: CameraPosition(
                   target: LatLng(location.latitude!, location.longitude!),
-                  zoom: 18,
+                  zoom: 16,
                   tilt: 0,
                   bearing: 0,
                 ),

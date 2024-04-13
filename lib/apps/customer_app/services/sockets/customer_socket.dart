@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:handees/apps/customer_app/services/sockets/customer_socket_events.dart';
 import 'package:handees/shared/res/uri.dart';
 import 'package:handees/shared/services/auth_service.dart';
 import 'package:handees/shared/utils/utils.dart';
@@ -33,7 +34,8 @@ class CustomerSocket {
   void disconnect() => _socket.disconnect();
 
   void cancelOffer(String bookingId) {
-    _socket.emit("cancel_offer", {"booking_id": bookingId});
+    _socket
+        .emit(CustomerSocketEmitEvents.cancelOffer, {"booking_id": bookingId});
   }
 
   void confirmJobDetails({
@@ -44,7 +46,7 @@ class CustomerSocket {
     required int duration,
     required String durationUnit,
   }) {
-    _socket.emit('confirm_job_details', {
+    _socket.emit(CustomerSocketEmitEvents.confirmJobDetails, {
       'booking_id': bookingId,
       'is_contract': isContract,
       'settlement': {
@@ -57,27 +59,32 @@ class CustomerSocket {
   }
 
   void rejectJobDetails(String bookingId) {
-    _socket.emit("reject_job_details", {"booking_id": bookingId});
+    _socket.emit(
+        CustomerSocketEmitEvents.rejectJobDetails, {"booking_id": bookingId});
   }
 
   void onBookingOfferAccepted(void Function(dynamic) handler) {
-    _socket.on("booking_offer_accepted", handler);
+    _socket.on(CustomerSocketListenEvents.bookingOfferAccepted, handler);
   }
 
   void onOfferCancelled(void Function(dynamic) handler) {
-    _socket.on("offer_cancelled", handler);
+    _socket.on(CustomerSocketListenEvents.offerCancelled, handler);
   }
 
   void onApproveBookingDetails(void Function(dynamic) handler) {
-    _socket.on('approve_booking_details', handler);
+    _socket.on(CustomerSocketListenEvents.approveBookingDetails, handler);
   }
 
   void onArtisanArrived(void Function(dynamic) handler) {
-    _socket.on('artisan_arrived', handler);
+    _socket.on(CustomerSocketListenEvents.artisanArrived, handler);
   }
 
   void onJobAlreadyConfirmed(void Function(dynamic) handler) {
-    _socket.on('job_details_already_confirmed', handler);
+    _socket.on(CustomerSocketListenEvents.jobDetailsAlreadyConfirmed, handler);
+  }
+
+  void onArtisanLocationUpdate(void Function(dynamic) handler) {
+    _socket.on(CustomerSocketListenEvents.artisanLocationUpdate, handler);
   }
 
   void onError(void Function(dynamic) handler) {
