@@ -27,6 +27,7 @@ import 'package:handees/apps/artisan_app/features/profile/ui/profileEdit_options
 import 'package:handees/shared/theme/theme.dart';
 import 'package:handees/shared/utils/utils.dart';
 
+import '../../apps/customer_app/features/review/ui/review.screen.dart';
 import 'routes.dart';
 
 final mainRouter = NavRouter(
@@ -147,6 +148,9 @@ final _customerAppRouter = NavRouter(
           builder: ((context) => const PickServiceDialog()),
           fullscreenDialog: true,
         );
+        break;
+      case CustomerAppRoutes.review:
+        pageRoute = MaterialPageRoute(builder: ((context)=> const ReviewScreen()));
         break;
       default:
         throw Exception('Unknown route: ${settings.name}');
