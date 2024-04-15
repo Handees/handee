@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ReviewScreen extends StatefulWidget {
   const ReviewScreen({super.key});
@@ -57,12 +55,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-             Row(
+             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('Service fee'), SizedBox(
-
-                child: CustomDottedLine(),
-              ), Text(" N7,500")],
+              children: [Text('Service fee'),Text(" N7,500")],
             ),
             const SizedBox(
               height: 10,
