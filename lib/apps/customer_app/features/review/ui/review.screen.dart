@@ -57,13 +57,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            const Row(
+             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('Service fee'), Text(" N7,500")],
+              children: [Text('Service fee'), SizedBox(
+
+                child: CustomDottedLine(),
+              ), Text(" N7,500")],
             ),
             const SizedBox(
               height: 10,
-            ),
+            ),CustomDottedLine(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [const Text('Time spent'), const Text("-----")],
@@ -137,7 +140,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 }
 
-Widget CustomDottedLine() => Row(
+Widget CustomDottedLine() => Column(
       children: List.generate(
           400 ~/ 10,
           (index) => Expanded(
