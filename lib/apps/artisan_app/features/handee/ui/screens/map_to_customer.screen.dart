@@ -30,10 +30,7 @@ class _MapToCustomerScreenState extends ConsumerState<MapToCustomerScreen> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
   bool hasArtisanArrived = true;
-  final destination = const LatLng(
-    6.5482,
-    3.3320,
-  );
+  late LatLng destination;
 
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor artisanIcon = BitmapDescriptor.defaultMarker;
@@ -66,8 +63,7 @@ class _MapToCustomerScreenState extends ConsumerState<MapToCustomerScreen> {
         await Helpers.getBytesFromAsset("assets/icon/artisan_marker.png", 150);
     artisanIcon = BitmapDescriptor.fromBytes(markerIcon);
 
-    markerIcon =
-        await Helpers.getBytesFromAsset("assets/icon/position_marker.png", 55);
+    markerIcon = await Helpers.getBytesFromAsset("assets/icon/house.png", 120);
     destinationIcon = BitmapDescriptor.fromBytes(markerIcon);
   }
 
@@ -75,6 +71,8 @@ class _MapToCustomerScreenState extends ConsumerState<MapToCustomerScreen> {
   void initState() {
     super.initState();
     setCustomMarkerIcon();
+    final currentOffer = ref.read(currentOfferProvider);
+    destination = LatLng(currentOffer.lat, currentOffer.lon);
     final location = ref.read(locationProvider);
     if (location.latitude != null && location.longitude != null) {
       getPolyPoints(LatLng(location.latitude!, location.longitude!));
@@ -116,12 +114,12 @@ class _MapToCustomerScreenState extends ConsumerState<MapToCustomerScreen> {
 
     Set<Marker> markers = {
       Marker(
-        markerId: const MarkerId('Current Location'),
+        markerId: const MarkerId('Artisan Location'),
         icon: artisanIcon,
         position: LatLng(location.latitude!, location.longitude!),
       ),
       Marker(
-        markerId: const MarkerId('Chicken Rep'),
+        markerId: const MarkerId('Customer Location'),
         position: destination,
         icon: destinationIcon,
       )
@@ -155,7 +153,7 @@ class _MapToCustomerScreenState extends ConsumerState<MapToCustomerScreen> {
               },
               initialCameraPosition: CameraPosition(
                 target: LatLng(location.latitude!, location.longitude!),
-                zoom: 18,
+                zoom: 15,
                 tilt: 0,
                 bearing: 0,
               ),

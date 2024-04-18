@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:handees/shared/utils/utils.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,6 +83,18 @@ class CustomerLocationStateNotifier extends StateNotifier<LocationData> {
   }
 
   void updateLocation(LocationData newLocationData) {
+    state = newLocationData;
+  }
+}
+
+final artisanLocationDataProvider =
+    StateNotifierProvider<ArtisanLocationDataStateNotifier, LatLng>(
+        (ref) => ArtisanLocationDataStateNotifier());
+
+class ArtisanLocationDataStateNotifier extends StateNotifier<LatLng> {
+  ArtisanLocationDataStateNotifier() : super(const LatLng(0, 0));
+
+  void updateLocation(LatLng newLocationData) {
     state = newLocationData;
   }
 }

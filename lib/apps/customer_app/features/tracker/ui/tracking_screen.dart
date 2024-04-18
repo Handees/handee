@@ -1,12 +1,14 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:handees/apps/artisan_app/features/handee/utils/helpers.dart';
 import 'package:handees/apps/customer_app/features/home/providers/booking.provider.dart';
 import 'package:handees/apps/customer_app/features/tracker/providers/customer_location.provider.dart';
-import 'package:handees/apps/customer_app/services/sockets/customer_socket.dart';
+import 'package:handees/shared/res/constants.dart';
 
 import 'package:handees/shared/res/shapes.dart';
 import 'package:handees/shared/routes/routes.dart';
@@ -16,6 +18,8 @@ import 'package:handees/shared/utils/utils.dart';
 import 'in_progress_bottom_sheet.dart';
 import 'loading_bottom_sheet.dart';
 
+const maximumArrivalDistance = 30;
+
 class TrackingScreen extends ConsumerStatefulWidget {
   const TrackingScreen({Key? key}) : super(key: key);
 
@@ -24,9 +28,10 @@ class TrackingScreen extends ConsumerStatefulWidget {
 }
 
 class _TrackingScreenState extends ConsumerState<TrackingScreen> {
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor artisanIcon = BitmapDescriptor.defaultMarker;
-  LatLng artisanLocation = const LatLng(6.5502, 3.3200);
 
   void setCustomMarkerIcon() async {
     Uint8List markerIcon =
@@ -37,17 +42,39 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
     destinationIcon = BitmapDescriptor.fromBytes(markerIcon);
   }
 
+  List<LatLng> polylineCoords = [];
+
+  Future getPolyPoints(LatLng source, LatLng destination) async {
+    PolylinePoints polylinePoints = PolylinePoints();
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      AppConstants.kMapsApiKey,
+      PointLatLng(source.latitude, source.longitude),
+      PointLatLng(destination.latitude, destination.longitude),
+    );
+
+    polylineCoords = [];
+    if (result.status == "REQUEST_DENIED") {
+      ePrint(result.errorMessage!);
+    }
+    if (result.points.isNotEmpty) {
+      for (var point in result.points) {
+        polylineCoords.add(LatLng(point.latitude, point.longitude));
+      }
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-    ref.read(customerLocationProvider.notifier).initLocation();
-    ref.read(customerSocketProvider).onArtisanLocationUpdate((data) {
-      dPrint(data);
-      // setState(() {
-      //   artisanLocation = LatLng(data["lat"], data["lon"]);
-      // });
-    });
     setCustomMarkerIcon();
+    final destination = ref.read(customerLocationProvider);
+    final artisan = ref.read(artisanLocationDataProvider);
+    if (destination.latitude != null) {
+      getPolyPoints(
+          artisan, LatLng(destination.latitude!, destination.longitude!));
+    }
     super.initState();
   }
 
@@ -56,7 +83,8 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
     late final Widget bottomSheet;
     final trackingState = ref.watch(bookingProvider);
     final model = ref.watch(bookingProvider.notifier);
-    final location = ref.watch(customerLocationProvider);
+    final destination = ref.watch(customerLocationProvider);
+    final artisanLocation = ref.watch(artisanLocationDataProvider);
 
     dPrint(trackingState);
 
@@ -77,8 +105,8 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
       default:
     }
 
-    dPrint(location.latitude);
-    if (location.latitude == null) {
+    dPrint(destination.latitude);
+    if (destination.latitude == null || destination.longitude == null) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -93,13 +121,23 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
       );
     }
 
+    ref.listen(artisanLocationDataProvider, (LatLng? prev, LatLng next) async {
+      dPrint(next);
+      GoogleMapController controller = await _controller.future;
+      await getPolyPoints(LatLng(next.latitude, next.longitude),
+          LatLng(destination.latitude!, destination.longitude!));
+
+      setState(() {
+        controller.animateCamera(
+            CameraUpdate.newLatLng(LatLng(next.latitude, next.longitude)));
+      });
+    });
+
     Set<Marker> markers = {
       Marker(
         markerId: const MarkerId('Customer Location'),
         icon: destinationIcon,
-        position: location.latitude == null
-            ? const LatLng(6.5482, 3.3320)
-            : LatLng(location.latitude!, location.longitude!),
+        position: LatLng(destination.latitude!, destination.longitude!),
       ),
       Marker(
         markerId: const MarkerId('Artisan'),
@@ -131,8 +169,8 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
                   );
                 },
                 initialCameraPosition: CameraPosition(
-                  target: LatLng(location.latitude!, location.longitude!),
-                  zoom: 16,
+                  target: LatLng(destination.latitude!, destination.longitude!),
+                  zoom: 15,
                   tilt: 0,
                   bearing: 0,
                 ),

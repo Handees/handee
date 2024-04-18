@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:handees/apps/customer_app/features/tracker/providers/customer_location.provider.dart';
 import 'package:handees/apps/customer_app/services/booking_service.customer.dart';
 import 'package:handees/apps/customer_app/services/sockets/customer_socket.dart';
 import 'package:handees/shared/data/handees/job_category.dart';
+import 'package:handees/shared/utils/utils.dart';
 import 'package:location/location.dart';
 
 final bookingProvider = StateNotifierProvider<BookingNotifier, BookingState>(
@@ -27,7 +29,17 @@ class BookingNotifier extends StateNotifier<BookingState> {
     _ref.read(customerLocationProvider.notifier).initLocation();
     _socket.connect();
     _socket.onBookingOfferAccepted((event) {
+      dPrint(event);
+      _ref
+          .read(artisanLocationDataProvider.notifier)
+          .updateLocation(LatLng(event['artisan_lat'], event['artisan_lon']));
       state = BookingState.inProgress;
+    });
+    _socket.onArtisanLocationUpdate((data) {
+      dPrint(data);
+      _ref
+          .read(artisanLocationDataProvider.notifier)
+          .updateLocation(LatLng(data["lat"], data["lon"]));
     });
     _socket.onArtisanArrived((event) {
       state = BookingState.arrived;
@@ -45,7 +57,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
     required JobCategory category,
     required LocationData location,
   }) async {
-    //TODO: Change below to loading: WIP
     state = BookingState.loading;
     _category = category;
 
@@ -55,8 +66,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
       token: token,
       lat: location.latitude!,
       lon: location.longitude!,
-      // lat: 6.548281268456966,
-      // lon: 3.332248000980724,
       category: category,
     );
   }
