@@ -57,25 +57,25 @@ class ArtisanSocketNotifier extends StateNotifier<io.Socket> {
 
     dPrint(
         "lat:${location.latitude} , lon:${location.longitude} emitted through sockets");
-    state.emit(
-      ArtisanSocketEmitEvents.locationUpdate,
-      {
-        "lat": 6.548281268456966,
-        "lon": 3.332248000980724,
-        "job_category": jobCategory.id,
-      },
-    );
-
-    //TODO: This is the correct code but we're using the above to test things out
     // state.emit(
     //   ArtisanSocketEmitEvents.locationUpdate,
     //   {
-    //     "lat": location.latitude,
-    //     "lon": location.longitude,
-    //     "artisan_id": AuthService.instance.user.uid,
-    //     "job_category": "carpentry",
+    //     "lat": 6.548281268456966,
+    //     "lon": 3.332248000980724,
+    //     "job_category": jobCategory.id,
     //   },
     // );
+
+    //TODO: This is the correct code but we're using the above to test things out
+    state.emit(
+      ArtisanSocketEmitEvents.locationUpdate,
+      {
+        "lat": location.latitude,
+        "lon": location.longitude,
+        "artisan_id": AuthService.instance.user.uid,
+        "job_category": "carpentry",
+      },
+    );
   }
 
   void emitArtisanArrival(String bookingId) {
@@ -87,9 +87,11 @@ class ArtisanSocketNotifier extends StateNotifier<io.Socket> {
     );
   }
 
-  void acceptOffer(String bookingId) {
+  void acceptOffer(String bookingId, LocationData location) {
     state.emit(ArtisanSocketEmitEvents.acceptOffer, {
       "booking_id": bookingId,
+      "artisan_lat": location.latitude,
+      "artisan_lon": location.longitude,
     });
   }
 

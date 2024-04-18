@@ -37,12 +37,21 @@ void main() async {
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
 
-  //TODO: Ask omas why this is false
   GoogleFonts.config.allowRuntimeFetching = true;
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // status bar color
   ));
+
+  // final GoogleMapsFlutterPlatform mapsImplementation =
+  //     GoogleMapsFlutterPlatform.instance;
+
+  // AndroidMapRenderer mapRenderer = AndroidMapRenderer.platformDefault;
+  // if (mapsImplementation is GoogleMapsFlutterAndroid) {
+  //   WidgetsFlutterBinding.ensureInitialized();
+  //   mapRenderer = await mapsImplementation
+  //       .initializeWithRenderer(AndroidMapRenderer.latest);
+  // }
 
   WidgetsFlutterBinding.ensureInitialized();
 
