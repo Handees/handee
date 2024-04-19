@@ -7,7 +7,7 @@ import 'package:location/location.dart';
 import 'package:uuid/uuid.dart';
 
 class PlacesService {
-  final location = Location();
+  final location = Location.instance;
   WidgetRef? ref;
   final PlacesRepository placesRepository;
   PlacesService._(this.placesRepository);

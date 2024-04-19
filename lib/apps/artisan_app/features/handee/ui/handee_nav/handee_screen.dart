@@ -72,7 +72,7 @@ class HandeeNavScreen extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                handee.isCompleted ? 'Completed' : 'Canceled',
+                                handee.isCompleted ? 'Completed' : 'Cancelled',
                                 textAlign: TextAlign.right,
                                 style: const TextStyle(fontSize: 14),
                               ),

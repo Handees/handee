@@ -1,24 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:handees/apps/artisan_app/services/sockets/artisan_socket.dart';
-import 'package:handees/apps/customer_app/features/home/providers/user.provider.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:handees/shared/utils/utils.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final artisanOnlineProvider = StateProvider((ref) => false);
+final customerLocationProvider =
+    StateNotifierProvider<CustomerLocationStateNotifier, LocationData>(
+        (ref) => CustomerLocationStateNotifier(ref));
 
-final locationProvider =
-    StateNotifierProvider<LocationStateNotifier, LocationData>(
-        (ref) => LocationStateNotifier(ref));
-
-class LocationStateNotifier extends StateNotifier<LocationData> {
-  final location = Location.instance;
+class CustomerLocationStateNotifier extends StateNotifier<LocationData> {
+  final location = Location();
   bool _serviceEnabled = false;
   bool _backgroundModeEnabled = false;
   bool _handlerRegistered = false;
   PermissionStatus _permissionGranted = PermissionStatus.denied;
-  StateNotifierProviderRef<LocationStateNotifier, LocationData> ref;
-  LocationStateNotifier(this.ref) : super(LocationData.fromMap({}));
+  StateNotifierProviderRef<CustomerLocationStateNotifier, LocationData> ref;
+
+  CustomerLocationStateNotifier(this.ref) : super(LocationData.fromMap({}));
 
   void initLocation() async {
     final sharedPrefs = await SharedPreferences.getInstance();
@@ -26,7 +24,9 @@ class LocationStateNotifier extends StateNotifier<LocationData> {
     final areLocationSettingsCompleted =
         sharedPrefs.getBool('locationSettingsCompleted');
 
-    if (areLocationSettingsCompleted == null || !areLocationSettingsCompleted) {
+    dPrint(areLocationSettingsCompleted);
+
+    if (areLocationSettingsCompleted == null || areLocationSettingsCompleted) {
       // Try to enable the location service
       _serviceEnabled = await location.serviceEnabled();
       if (!_serviceEnabled) {
@@ -53,13 +53,14 @@ class LocationStateNotifier extends StateNotifier<LocationData> {
       _backgroundModeEnabled = await location.isBackgroundModeEnabled();
       if (!_backgroundModeEnabled) {
         try {
-          _backgroundModeEnabled = await location.enableBackgroundMode();
+          _backgroundModeEnabled =
+              await location.enableBackgroundMode(enable: true);
         } catch (e) {
           dPrint('Background Location Service not enabled');
           ePrint(e.toString());
         }
       }
-
+      dPrint('Location inited');
       sharedPrefs.setBool('locationSettingsCompleted', true);
     }
 
@@ -68,20 +69,32 @@ class LocationStateNotifier extends StateNotifier<LocationData> {
       interval: 5000,
       distanceFilter: 5,
     );
+    dPrint("waiting for location");
+    final currLocation = await location.getLocation();
+    dPrint(currLocation);
+    // state = currLocation;
     if (!_handlerRegistered) {
       location.onLocationChanged.listen((LocationData currLocation) {
+        dPrint(currLocation);
         updateLocation(currLocation);
-
-        if (ref.read(artisanOnlineProvider)) {
-          ref.read(artisanSocketProvider.notifier).updateArtisanLocation(
-              currLocation, ref.read(userProvider).artisanProfile!.jobCategory);
-        }
       });
       _handlerRegistered = true;
     }
   }
 
   void updateLocation(LocationData newLocationData) {
+    state = newLocationData;
+  }
+}
+
+final artisanLocationDataProvider =
+    StateNotifierProvider<ArtisanLocationDataStateNotifier, LatLng>(
+        (ref) => ArtisanLocationDataStateNotifier());
+
+class ArtisanLocationDataStateNotifier extends StateNotifier<LatLng> {
+  ArtisanLocationDataStateNotifier() : super(const LatLng(0, 0));
+
+  void updateLocation(LatLng newLocationData) {
     state = newLocationData;
   }
 }
