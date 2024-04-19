@@ -100,7 +100,7 @@ final _customerAppRouter = NavRouter(
     switch (settings.name) {
       case '/':
       case CustomerAppRoutes.root:
-        page = const ReviewScreen();
+        page = const HomeScreen();
         break;
       case CustomerAppRoutes.profile:
         page = const ProfileScreen();
