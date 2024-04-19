@@ -1,4 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:handees/generated/assets.dart';
+
+import '../../../../../shared/utils/utils.dart';
+import '../../../../artisan_app/features/handee/ui/screens/handee_concluded.screen.dart';
+import '../../../../artisan_app/features/handee/ui/widgets/dashes.dart';
+import '../../../../artisan_app/features/handee/ui/widgets/stars.dart';
 
 class ReviewScreen extends StatefulWidget {
   const ReviewScreen({super.key});
@@ -24,18 +32,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
       },
       child: Container(
         decoration: BoxDecoration(
-            color: _feedback[key] == true ? Colors.black : Colors.black54,
-            borderRadius: BorderRadius.circular(20)),
+            color: _feedback[key] == true ? Colors.black : const Color(0xffF2F3F4),
+            borderRadius: BorderRadius.circular(16)),
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.only(left: 15, right: 15),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(11.0),
           child: Text(
             key,
-            style: TextStyle(
-              color: Colors.white,
+            style:  TextStyle(
+              color: _feedback[key] == true ? Colors.white : const Color(0xffA4A1A1),
+              fontFamily: Assets.googleFontsCabinBold,
             ),
           ),
         ),
-        margin: EdgeInsets.only(left: 5),
       ),
     );
   }
@@ -48,68 +58,101 @@ class _ReviewScreenState extends State<ReviewScreen> {
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Service Feedback'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-             const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('Service fee'),Text(" N7,500")],
-            ),
-            const SizedBox(
-              height: 10,
-            ),CustomDottedLine(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Time spent'), const Text("-----")],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text('Service ID'), const Text("KH921924")],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Divider(
-              height: 100,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+      body: Column(
+        children:[
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Stack(
               children: [
-                Center(child: const Text('Please rate your service provider.')),
+                Column(
+                  children: [
+                    HandeeInfoRow(
+                      infoName: Text(
+                        'Handee Fee',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      infoValue: Text(
+                        '₦7,500',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    HandeeInfoRow(
+                      infoName: Text(
+                        'Time Spent',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      infoValue: Text(
+                        '1 Hour, 3 Mins',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    HandeeInfoRow(
+                      infoName: Text(
+                        'Handee ID',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      infoValue: Text(
+                        'KH9212924',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  left: 4.25,
+                  top: 15,
+                  child: Column(
+                    children: [
+                      Dashes(
+                        height: 70,
+                        color: getHexColor('14161c'),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Dashes(
+                        height: 70,
+                        color: getHexColor('14161c'),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(5, (index) {
-                return IconButton(
-                  icon: Icon(
-                    index < _rating ? Icons.star : Icons.star_border,
-                    color: Colors.black,
-                    size: 35.0,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _rating = index + 1;
-                    });
-                  },
-                );
+          ),
+          const SizedBox(
+            height: 50,
+          ),
+           Center(
+              child: Text('Please rate your service provider.',style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: getHexColor('a4a1a1'),
+              ),
+          ),
+           ),
+          const SizedBox(
+            height: 30,
+          ),
+          Stars(
+              count: _rating,
+              changeCount: (int newCount) {
+                setState(() {
+                  _rating = newCount;
+                });
               }),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _feedback.keys.map(buildClickableText).toList()),
-          ],
-        ),
+         const SizedBox(
+            height: 30,
+          ),
+          Wrap(
+            spacing: 10,
+              children: _feedback.keys.map(buildClickableText).toList()),
+        ]
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
@@ -126,7 +169,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              // Handle submission logic
+              //TODO: Handle Submission logic
             },
           ),
         ),
@@ -135,19 +178,5 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 }
 
-Widget CustomDottedLine() => Column(
-      children: List.generate(
-          400 ~/ 10,
-          (index) => Expanded(
-                  child: Container(
-                width: 0.2,
-                color: index % 2 == 0
-                    ? Colors.transparent
-                    : const Color.fromRGBO(
-                        23,
-                        48,
-                        86,
-                        1,
-                      ),
-              ))),
-    );
+
+

@@ -100,7 +100,7 @@ final _customerAppRouter = NavRouter(
     switch (settings.name) {
       case '/':
       case CustomerAppRoutes.root:
-        page = const HomeScreen();
+        page = const ReviewScreen();
         break;
       case CustomerAppRoutes.profile:
         page = const ProfileScreen();
@@ -150,7 +150,7 @@ final _customerAppRouter = NavRouter(
         );
         break;
       case CustomerAppRoutes.review:
-        pageRoute = MaterialPageRoute(builder: ((context)=> const ReviewScreen()));
+        page = const ReviewScreen();
         break;
       default:
         throw Exception('Unknown route: ${settings.name}');
