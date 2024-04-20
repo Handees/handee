@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:handees/apps/artisan_app/features/handee/ui/widgets/stars.dart';
+import 'package:handees/apps/customer_app/features/tracker/providers/artisan_info.provider.dart';
+import 'package:handees/apps/customer_app/features/tracker/providers/customer_location.provider.dart';
 import 'package:handees/shared/res/shapes.dart';
 import 'package:handees/shared/routes/routes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:handees/shared/utils/utils.dart';
 import '../providers/trackingProvider.dart';
+import 'package:latlong2/latlong.dart' as latlong;
 
 class InProgressBottomSheet extends ConsumerStatefulWidget {
   const InProgressBottomSheet({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<InProgressBottomSheet> createState() => _InProgressBottomSheetState();
+  ConsumerState<InProgressBottomSheet> createState() =>
+      _InProgressBottomSheetState();
 }
 
 class _InProgressBottomSheetState extends ConsumerState<InProgressBottomSheet>
@@ -77,6 +84,23 @@ class _InProgressBottomSheetState extends ConsumerState<InProgressBottomSheet>
 
   @override
   Widget build(BuildContext context) {
+    final currentBooking = ref.watch(currentBookingProvider);
+    final artisanLocationData = ref.watch(artisanLocationDataProvider);
+    final customerLocation = ref.watch(customerLocationProvider);
+    const distance = latlong.Distance();
+    final double currentMeters = distance(
+      latlong.LatLng(
+          artisanLocationData.latitude, artisanLocationData.longitude),
+      latlong.LatLng(customerLocation.latitude!, customerLocation.longitude!),
+    );
+    final double totalMeters = distance(
+      latlong.LatLng(currentBooking.artisanInitialLocation!.latitude,
+          currentBooking.artisanInitialLocation!.longitude),
+      latlong.LatLng(customerLocation.latitude!, customerLocation.longitude!),
+    );
+
+    dPrint(currentMeters);
+    dPrint(totalMeters);
     return GestureDetector(
       onVerticalDragUpdate: (details) {
         setState(() {
@@ -125,11 +149,14 @@ class _InProgressBottomSheetState extends ConsumerState<InProgressBottomSheet>
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
-                      'Your handee man is on the way!',
-                      style: Theme.of(context).textTheme.titleMedium,
+                      'Your ${currentBooking.artisan?.jobTitle} is on the way!',
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                   ),
-                  const SizedBox(height: 8.0),
+                  const SizedBox(height: 24.0),
                 ],
               ),
             ),
@@ -156,67 +183,91 @@ class _InProgressBottomSheetState extends ConsumerState<InProgressBottomSheet>
                                   .primaryContainer,
                             ),
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('Arrival time: $time mins',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimaryContainer,
-                                    )),
+                            child: Text(
+                              '$currentMeters meters away',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
+                                  ),
+                            ),
                           ),
-                          const SizedBox(height: 8.0),
+                          const SizedBox(height: 24.0),
                           Row(
                             children: [
-                              const CircleAvatar(radius: 28),
+                              const CircleAvatar(
+                                radius: 28,
+                                backgroundImage: NetworkImage(
+                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ71zry5wqz_McgPvbGx9exU5dsBC4HLZNhtU4hQX1hg&s"),
+                              ),
                               const SizedBox(width: 16),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Jane Doe',
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                    currentBooking.artisanUserInfo != null
+                                        ? currentBooking.artisanUserInfo!
+                                            .getName()
+                                        : "Artisan",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(fontSize: 14),
                                   ),
-                                  const SizedBox(height: 2),
-                                  Container(
-                                    color: Colors.red,
-                                    height: 16,
-                                    width: 96,
+                                  const SizedBox(height: 4),
+                                  const HandeeStars(
+                                    count: 5,
+                                    filledCount: 4,
+                                    height: 18,
+                                    width: 18,
                                   ),
-                                  const SizedBox(height: 2),
+                                  const SizedBox(height: 4),
                                   Text(
-                                    '17/24 handees completed',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    '17/24 completed',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: getHexColor('A4A1A1'),
+                                        ),
                                   ),
                                 ],
                               ),
                               const Spacer(),
                               Container(
                                 decoration: ShapeDecoration(
-                                  color: Colors.orange.withOpacity(0.2),
+                                  color: currentBooking
+                                      .artisan?.jobCategory?.foregroundColor
+                                      .withOpacity(0.2),
                                   shape: Shapes.mediumShape,
                                 ),
                                 height: 72,
                                 width: 72,
-                                child: const Center(
+                                child: Center(
                                   child: CircleAvatar(
-                                    backgroundColor: Colors.orange,
-                                    child: Icon(Icons.abc),
+                                    backgroundColor: currentBooking
+                                        .artisan?.jobCategory?.foregroundColor,
+                                    child: Icon(currentBooking
+                                        .artisan?.jobCategory?.icon),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 8.0),
+                          const SizedBox(height: 32.0),
                           Row(
                             children: [
-                              const SizedBox(
+                              SizedBox(
                                 width: 64,
-                                child: Icon(Icons.money),
+                                child: SvgPicture.asset(
+                                  'assets/svg/money.svg',
+                                  width: 24,
+                                  height: 24,
+                                ),
                               ),
                               const SizedBox(width: 16),
                               Text(
@@ -233,13 +284,22 @@ class _InProgressBottomSheetState extends ConsumerState<InProgressBottomSheet>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text('ETA $time minutes'),
+                          Text(
+                            '$currentMeters meters away',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                          const SizedBox(height: 8),
                           LinearProgressIndicator(
-                            value: 400 / 2000,
+                            value: (totalMeters - currentMeters) / totalMeters,
                             backgroundColor:
                                 Theme.of(context).colorScheme.secondary,
                           ),
-                          const SizedBox(height: 8.0),
                         ],
                       ),
                     ),
@@ -261,17 +321,45 @@ class _InProgressBottomSheetState extends ConsumerState<InProgressBottomSheet>
               ),
               child: Column(
                 children: [
-                  const SizedBox(height: 8.0),
-                  const Text(
-                      'While you wait, you can reach out to them to confirm the  details of the service you need.'),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 30.0),
+                  Text(
+                    'While you wait, you can reach out to them to confirm the details of the service you need.',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: getHexColor('A4A1A1')),
+                  ),
+                  const SizedBox(height: 30.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: FilledButton(
-                          onPressed: () {},
-                          child: const Text('Call'),
+                          onPressed: () {
+                            Uri callPhoneNo = Uri.parse(
+                                'tel:${currentBooking.artisanUserInfo?.telephone}');
+                            openUrl(callPhoneNo);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Call',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: Colors.white,
+                                    ),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              const Icon(
+                                Icons.call,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -282,7 +370,26 @@ class _InProgressBottomSheetState extends ConsumerState<InProgressBottomSheet>
                             Navigator.of(context)
                                 .pushNamed(CustomerAppRoutes.chat);
                           },
-                          child: const Text('Message'),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Message',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: getHexColor('14161C'),
+                                    ),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              const Icon(
+                                Icons.message,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -294,7 +401,7 @@ class _InProgressBottomSheetState extends ConsumerState<InProgressBottomSheet>
                       child: TextButton.icon(
                         onPressed: () {},
                         icon: const Icon(Icons.close),
-                        label: const Text('Cancel'),
+                        label: const Text('Cancel Service'),
                         style:
                             Theme.of(context).textButtonTheme.style?.copyWith(
                                   foregroundColor: MaterialStateProperty.all(

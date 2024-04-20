@@ -48,6 +48,20 @@ class ArtisanModel {
         artisanSignupDate = DateTime.parse(json["sign_up_date"]),
         kycStatus = json['kyc_status'];
 
+  ArtisanModel.empty()
+      : artisanId = "",
+        //artisanCreatedAt = DateTime.parse(json["created_at"]),
+        hourlyRate = 0,
+        isVerified = false,
+        //json["is_verified"],
+        //jobCategory = jobCategoriesMap[json["job_category_id"]],
+        jobCategory = null,
+        jobTitle = "",
+        jobsCompleted = 0,
+        //  ratings = List<double>.from(json["ratings"] as List),
+        artisanSignupDate = DateTime.now(),
+        kycStatus = "";
+
   ArtisanModel copyWith({
     String? artisanId,
     double? hourlyRate,
