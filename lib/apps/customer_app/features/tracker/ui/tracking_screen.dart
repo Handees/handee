@@ -93,7 +93,6 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
         bottomSheet = LoadingBottomSheet(
           category: model.category,
         );
-
         break;
       case BookingState.inProgress:
         bottomSheet = const InProgressBottomSheet();
@@ -105,7 +104,6 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
       default:
     }
 
-    dPrint(destination.latitude);
     if (destination.latitude == null || destination.longitude == null) {
       return Scaffold(
         appBar: AppBar(
@@ -122,7 +120,6 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
     }
 
     ref.listen(artisanLocationDataProvider, (LatLng? prev, LatLng next) async {
-      dPrint(next);
       GoogleMapController controller = await _controller.future;
       await getPolyPoints(LatLng(next.latitude, next.longitude),
           LatLng(destination.latitude!, destination.longitude!));

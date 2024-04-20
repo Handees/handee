@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:handees/apps/customer_app/features/tracker/providers/artisan_info.provider.dart';
 import 'package:handees/apps/customer_app/features/tracker/providers/customer_location.provider.dart';
 import 'package:handees/apps/customer_app/services/booking_service.customer.dart';
 import 'package:handees/apps/customer_app/services/sockets/customer_socket.dart';
+import 'package:handees/shared/data/handees/booking.dart';
 import 'package:handees/shared/data/handees/job_category.dart';
 import 'package:handees/shared/utils/utils.dart';
 import 'package:location/location.dart';
@@ -28,15 +30,17 @@ class BookingNotifier extends StateNotifier<BookingState> {
       : super(BookingState.idle) {
     _ref.read(customerLocationProvider.notifier).initLocation();
     _socket.connect();
-    _socket.onBookingOfferAccepted((event) {
-      dPrint(event);
+    _socket.onBookingOfferAccepted((data) {
+      dPrint(data);
+      _ref
+          .read(currentBookingProvider.notifier)
+          .updateCurrentBooking(Booking.fromJson(data));
       _ref
           .read(artisanLocationDataProvider.notifier)
-          .updateLocation(LatLng(event['artisan_lat'], event['artisan_lon']));
+          .updateLocation(LatLng(data['artisan_lat'], data['artisan_lon']));
       state = BookingState.inProgress;
     });
     _socket.onArtisanLocationUpdate((data) {
-      dPrint(data);
       _ref
           .read(artisanLocationDataProvider.notifier)
           .updateLocation(LatLng(data["lat"], data["lon"]));

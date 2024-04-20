@@ -29,7 +29,7 @@ class MapToCustomerScreen extends ConsumerStatefulWidget {
 class _MapToCustomerScreenState extends ConsumerState<MapToCustomerScreen> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
-  bool hasArtisanArrived = true;
+  bool hasArtisanArrived = false;
   late LatLng destination;
 
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;

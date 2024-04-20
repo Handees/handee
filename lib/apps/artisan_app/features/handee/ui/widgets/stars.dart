@@ -51,39 +51,46 @@ class HandeeStars extends StatelessWidget {
   final int count;
   final double height;
   final double width;
+  final int filledCount;
   const HandeeStars(
       {required this.count,
+      this.filledCount = 5,
       required this.height,
       required this.width,
       super.key});
 
+  final double starGap = 5;
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: height,
-          width: width,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.zero,
-            itemBuilder: (context, index) {
-              int filled = count - 1;
-              if (index <= filled) {
-                return SvgPicture.asset('assets/svg/small_gold_star.svg');
-              } else {
-                return SvgPicture.asset('assets/svg/small_empty_star.svg');
-              }
-            },
-            separatorBuilder: (context, index) {
-              return SizedBox(
-                width: index < 5 ? 5 : 0,
-              );
-            },
-            itemCount: 5,
-          ),
-        ),
-      ],
+    return SizedBox(
+      height: height,
+      width: (width * 5) + (starGap * 4),
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.zero,
+        itemBuilder: (context, index) {
+          if (index <= (filledCount - 1)) {
+            return SvgPicture.asset(
+              'assets/svg/small_gold_star.svg',
+              width: 18,
+              height: 18,
+            );
+          } else {
+            return SvgPicture.asset(
+              'assets/svg/small_empty_star.svg',
+              width: 18,
+              height: 18,
+            );
+          }
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(
+            width: index < 5 ? starGap : 0,
+          );
+        },
+        itemCount: 5,
+      ),
     );
   }
 }
