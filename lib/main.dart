@@ -101,9 +101,8 @@ class MyApp extends StatelessWidget {
       title: 'Handees',
       theme: buildTheme(lightColorScheme),
       // darkTheme: darkTheme,
-      home: GetHelpScreen(),
-      // onGenerateRoute: mainRouter.onGenerateRoute,
-      // key: mainRouter.navigatorKey,
+      onGenerateRoute: mainRouter.onGenerateRoute,
+      key: mainRouter.navigatorKey,
     );
   }
 }
