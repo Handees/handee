@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -13,6 +12,7 @@ import 'package:handees/shared/routes/routers.dart';
 import 'package:handees/shared/services/auth_service.dart';
 import 'package:logger/logger.dart';
 
+import 'apps/customer_app/features/get_help/ui/screens/get_help.screen.dart';
 import 'firebase_options.dart';
 import 'shared/theme/theme.dart';
 
@@ -101,9 +101,9 @@ class MyApp extends StatelessWidget {
       title: 'Handees',
       theme: buildTheme(lightColorScheme),
       // darkTheme: darkTheme,
-
-      onGenerateRoute: mainRouter.onGenerateRoute,
-      key: mainRouter.navigatorKey,
+      home: GetHelpScreen(),
+      // onGenerateRoute: mainRouter.onGenerateRoute,
+      // key: mainRouter.navigatorKey,
     );
   }
 }
