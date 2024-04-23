@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:handees/generated/assets.dart';
 
 import '../../../../../shared/utils/utils.dart';
@@ -158,7 +156,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
-          constraints: BoxConstraints(minWidth: double.infinity),
+          constraints: const BoxConstraints(minWidth: double.infinity),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.black,
