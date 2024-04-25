@@ -148,7 +148,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         const Divider(),
                         ListTile(
-                          onTap: () {},
+                          onTap: () => Navigator.of(context).pushNamed(CustomerAppRoutes.support),
                           leading: const Icon(HandeeIcons.personSupport),
                           title: const Text('Customer Support'),
                         ),

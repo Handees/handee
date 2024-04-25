@@ -15,6 +15,7 @@ import 'package:handees/apps/artisan_app/features/chat/ui/screens/chat_screen.da
 import 'package:handees/apps/artisan_app/features/home/ui/home.artisan.dart';
 import 'package:handees/apps/artisan_app/features/withdrawal/ui/screens/earnings_screen.dart';
 import 'package:handees/apps/customer_app/features/artisan_switch/ui/screens/artisan_switch.screen.dart';
+import 'package:handees/apps/customer_app/features/get_help/ui/screens/get_help.screen.dart';
 import 'package:handees/apps/customer_app/features/profile/ui/edit_address.dart';
 import 'package:handees/apps/customer_app/features/profile/ui/edit_email.dart';
 import 'package:handees/apps/customer_app/features/profile/ui/edit_profile.dart';
@@ -113,13 +114,15 @@ final _customerAppRouter = NavRouter(
       case CustomerAppRoutes.settings:
         page = const SettingsScreen();
         break;
+      case CustomerAppRoutes.support:
+        page = const GetHelpScreen();
+        break;
       case CustomerAppRoutes.tracking:
         page = const TrackingScreen();
         break;
       case CustomerAppRoutes.chat:
         page = const ChatScreen();
         break;
-
       case CustomerAppRoutes.addCard:
         page = AddCardScreen();
         break;

@@ -5,7 +5,7 @@ import 'package:handees/apps/customer_app/features/get_help/ui/widgets/get_help_
 import 'package:handees/apps/customer_app/features/get_help/ui/widgets/get_help_artisan_info.widget.dart';
 
 class GetHelpScreen extends StatelessWidget {
-  GetHelpScreen({super.key});
+  const GetHelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
