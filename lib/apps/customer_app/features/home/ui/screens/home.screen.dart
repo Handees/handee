@@ -12,12 +12,8 @@ import 'package:handees/shared/res/icons.dart';
 import 'package:handees/shared/routes/routes.dart';
 import 'package:handees/shared/services/auth_service.dart';
 import 'package:handees/shared/ui/widgets/custom_bottom_sheet.dart';
-import 'package:handees/shared/utils/utils.dart';
-
-import '../../providers/booking.provider.dart';
 import '../../providers/user.provider.dart';
 import '../widgets/location_picker.dart';
-import '../widgets/pick_service_bottom_sheet.dart';
 import '../widgets/service_card.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -39,7 +35,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     const horizontalPadding = 16.0;
 
     final user = ref.watch(userProvider);
-    final location = ref.watch(customerLocationProvider);
 
     const categories = JobCategory.values;
 
@@ -264,41 +259,43 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         (context, index) {
                           return InkWell(
                             onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (sheetCtx) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                      bottom: MediaQuery.of(sheetCtx)
-                                          .viewInsets
-                                          .bottom,
-                                    ),
-                                    child: PickServiceBottomSheet(
-                                      category: categories[index],
-                                      onClick: () {
-                                        Navigator.of(context)
-                                            .pushNamed(
-                                                CustomerAppRoutes.pickService)
-                                            .then((res) {
-                                          if (res != null &&
-                                              location.latitude != null) {
-                                            dPrint("Called bookservice");
-                                            ref
-                                                .read(bookingProvider.notifier)
-                                                .bookService(
-                                                  category: categories[index],
-                                                  location: location,
-                                                );
-                                            Navigator.of(context).pushNamed(
-                                                CustomerAppRoutes.tracking);
-                                          }
-                                        });
-                                      },
-                                    ),
-                                  );
-                                },
-                              );
+                              // showModalBottomSheet(
+                              //   context: context,
+                              //   isScrollControlled: true,
+                              //   builder: (sheetCtx) {
+                              //     return Padding(
+                              //       padding: EdgeInsets.only(
+                              //         bottom: MediaQuery.of(sheetCtx)
+                              //             .viewInsets
+                              //             .bottom,
+                              //       ),
+                              //       child: PickServiceBottomSheet(
+                              //         category: categories[index],
+                              //         onClick: () {
+                              //           Navigator.of(context)
+                              //               .pushNamed(
+                              //                   CustomerAppRoutes.pickService)
+                              //               .then((res) {
+                              //             if (res != null &&
+                              //                 location.latitude != null) {
+                              //               dPrint("Called bookservice");
+                              //               ref
+                              //                   .read(bookingProvider.notifier)
+                              //                   .bookService(
+                              //                     category: categories[index],
+                              //                     location: location,
+                              //                   );
+                              //               Navigator.of(context).pushNamed(
+                              //                   CustomerAppRoutes.tracking);
+                              //             }
+                              //           });
+                              //         },
+                              //       ),
+                              //     );
+                              //   },
+                              // );
+                              Navigator.of(context)
+                                  .pushNamed(CustomerAppRoutes.review);
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(

@@ -7,7 +7,6 @@ import 'package:handees/shared/res/constants.dart';
 import 'package:handees/shared/utils/utils.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:socket_io_client/socket_io_client.dart' as io;
 
 import 'sockets/customer_socket.dart';
 
@@ -82,7 +81,7 @@ class BookingService {
 
   //TODO shouldn't be dynamic
   getBookings(String token) async {
-    final response = await http.get(
+    await http.get(
       Uri.https(
         AppConstants.url,
         '/user/bookings',

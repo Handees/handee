@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:handees/shared/res/uri.dart';
+import 'package:handees/shared/services/auth_service.dart';
 import 'package:http/http.dart' as http;
 
 class PaymentRepository {
@@ -18,7 +17,7 @@ class PaymentRepository {
     required String email,
     required int amount,
   }) async {
-    String token = await FirebaseAuth.instance.currentUser!.getIdToken();
+    String token = AuthService.instance.token;
 
     final response = await http.post(
       AppUris.paymentsUri,

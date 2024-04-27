@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:handees/generated/assets.dart';
 
 import '../../../../../shared/utils/utils.dart';
@@ -30,23 +32,23 @@ class _ReviewScreenState extends State<ReviewScreen> {
       },
       child: Container(
         decoration: BoxDecoration(
-            color: _feedback[key] == true ? Colors.black : const Color(0xffF2F3F4),
+            color:
+                _feedback[key] == true ? Colors.black : const Color(0xffF2F3F4),
             borderRadius: BorderRadius.circular(16)),
         margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        child: Padding(
-          padding: const EdgeInsets.all(11.0),
-          child: Text(
-            key,
-            style:  TextStyle(
-              color: _feedback[key] == true ? Colors.white : const Color(0xffA4A1A1),
-              fontFamily: Assets.googleFontsCabinBold,
-            ),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        child: Text(
+          key,
+          style: TextStyle(
+            color:
+                _feedback[key] == true ? Colors.white : const Color(0xffA4A1A1),
           ),
         ),
       ),
     );
   }
+
+  final horizontalPadding = 24;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
         ),
       ),
       body: Column(
-        children:[
+        children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Stack(
@@ -128,12 +130,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
           const SizedBox(
             height: 50,
           ),
-           Center(
-              child: Text('Please rate your service provider.',style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: getHexColor('a4a1a1'),
-              ),
+          Center(
+            child: Text(
+              'Please rate your service provider.',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: getHexColor('a4a1a1'),
+                  ),
+            ),
           ),
-           ),
           const SizedBox(
             height: 30,
           ),
@@ -144,13 +148,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   _rating = newCount;
                 });
               }),
-         const SizedBox(
+          const SizedBox(
             height: 30,
           ),
-          Wrap(
-            spacing: 10,
-              children: _feedback.keys.map(buildClickableText).toList()),
-        ]
+          SizedBox(
+            width: MediaQuery.of(context).size.width - (horizontalPadding * 2),
+            child: Wrap(
+              spacing: 8,
+              children: _feedback.keys.map(buildClickableText).toList(),
+            ),
+          ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
@@ -175,6 +183,3 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
   }
 }
-
-
-
