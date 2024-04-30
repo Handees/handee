@@ -32,7 +32,7 @@ class GetHelpScreen extends StatelessWidget {
               child: getHelpListTile(context,
                   onTap: () {},
                   text: 'Select an older service',
-                  textStyle: Theme.of(context).textTheme.bodyMedium),
+                  textStyle: Theme.of(context).textTheme.titleMedium),
             ),
             Expanded(
               child: Container(
@@ -43,7 +43,7 @@ class GetHelpScreen extends StatelessWidget {
                   children: [
                     Text(
                       'Get help with something else',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.titleMedium
                     ),
                     SizedBox(
                       height: 10,
@@ -51,20 +51,26 @@ class GetHelpScreen extends StatelessWidget {
                     getHelpListTile(context,
                         onTap: () {},
                         text: 'About Lavorh',
-                        textStyle: Theme.of(context).textTheme.bodySmall,
+                        textStyle: Theme.of(context).textTheme.bodyMedium,
                         padding: EdgeInsets.zero),
+                    Divider(
+                        color: Theme.of(context).dividerColor
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: getHelpListTile(context,
                           onTap: () {},
                           text: 'App and features',
-                          textStyle: Theme.of(context).textTheme.bodySmall,
+                          textStyle: Theme.of(context).textTheme.bodyMedium,
                           padding: EdgeInsets.zero),
+                    ),
+                    Divider(
+                       color: Theme.of(context).dividerColor,
                     ),
                     getHelpListTile(context,
                         onTap: () {},
                         text: 'Account and data',
-                        textStyle: Theme.of(context).textTheme.bodySmall,
+                        textStyle: Theme.of(context).textTheme.bodyMedium,
                         padding: EdgeInsets.zero),
                   ],
                 ),

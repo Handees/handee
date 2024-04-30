@@ -1,16 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:handees/apps/customer_app/features/profile/ui/widgets/circle_with_svg_image.dart';
 import 'package:intl/intl.dart';
 
 import 'brush_Icon.widget.dart';
 
 class ArtisanInfoWidget extends ConsumerWidget {
-  ArtisanInfoWidget({super.key});
+  const ArtisanInfoWidget({super.key});
 
-  String artisan = 'Hair stylist';
-  String artisanName = 'John Doe';
-  String artisanPhotoPath = '';
+  final String artisan = 'Hair stylist';
+  final String artisanName = 'John Doe';
+  final String artisanPhotoPath = '';
   String dateTime(DateTime dateTime) {
     return DateFormat('MMM, yy, h:mm a').format(dateTime);
   }
@@ -29,7 +31,7 @@ class ArtisanInfoWidget extends ConsumerWidget {
         children: [
           Text(
             'Get help with a recent service',
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           SizedBox(
             height: 20,
@@ -39,20 +41,30 @@ class ArtisanInfoWidget extends ConsumerWidget {
             leading: brushIconWidget(),
             title: Text(
               artisan,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             subtitle: Text(
               dateTime(DateTime.now()),
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Colors.grey[500]
+              ),
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   artisanName,
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.grey[500]
+                  ),
+
                 ),
-                SvgPicture.asset('assets/svg/userImage.svg')
+                SizedBox(width: 5,),
+                FittedBox(
+                  child: CircleAvatarWithSvgImage(
+                      imagePath: 'assets/svg/userImage.svg'),
+                )
+                 
               ],
             ),
           ),
