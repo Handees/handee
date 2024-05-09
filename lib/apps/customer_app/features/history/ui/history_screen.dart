@@ -116,7 +116,7 @@ class HistoryScreen extends StatelessWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Handees History'),
+        title: const Text('My Lavorh services'),
       ),
       body: ListView.builder(
         itemCount: groupedHistory.length,
