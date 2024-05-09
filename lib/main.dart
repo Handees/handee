@@ -12,7 +12,6 @@ import 'package:handees/shared/routes/routers.dart';
 import 'package:handees/shared/services/auth_service.dart';
 import 'package:logger/logger.dart';
 
-import 'apps/customer_app/features/get_help/ui/screens/get_help.screen.dart';
 import 'firebase_options.dart';
 import 'shared/theme/theme.dart';
 

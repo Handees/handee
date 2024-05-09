@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:handees/apps/customer_app/features/profile/ui/widgets/circle_with_svg_image.dart';
 import 'package:intl/intl.dart';
-
 import 'brush_Icon.widget.dart';
 
 class ArtisanInfoWidget extends ConsumerWidget {
@@ -19,6 +15,7 @@ class ArtisanInfoWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    String assetName = 'assets/png/profile_photo.png';
     return Container(
       padding: EdgeInsets.fromLTRB(15, 35, 15, 30),
       decoration: BoxDecoration(
@@ -45,26 +42,37 @@ class ArtisanInfoWidget extends ConsumerWidget {
             ),
             subtitle: Text(
               dateTime(DateTime.now()),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.grey[500]
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: Colors.grey[500]),
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   artisanName,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[500]
-                  ),
-
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: Colors.grey[500]),
                 ),
-                SizedBox(width: 5,),
-                FittedBox(
-                  child: CircleAvatarWithSvgImage(
-                      imagePath: 'assets/svg/userImage.svg'),
+                SizedBox(
+                  width: 5,
+                ),
+                Container(
+                  height: 32,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    shape: BoxShape.circle,
+                  ),
+                  padding: EdgeInsets.all(5),
+                  child: Image.asset(
+                    assetName,
+                    fit: BoxFit.contain,
+                  ),
                 )
-                 
               ],
             ),
           ),
