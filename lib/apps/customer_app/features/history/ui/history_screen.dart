@@ -115,38 +115,55 @@ class HistoryScreen extends StatelessWidget {
       groupedHistory[month]!.add(item);
     }
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Lavorh services'),
-      ),
-      body: ListView.builder(
-        itemCount: groupedHistory.length,
-        itemBuilder: (context, index) {
-          String month = groupedHistory.keys.elementAt(index);
-          List<HistoryModel> monthHistory = groupedHistory[month]!;
+      appBar: AppBar(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+         const Padding(
+            padding:  EdgeInsets.all(8.0),
+            child: Text(
+              'My Lavorh services',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: groupedHistory.length,
+              itemBuilder: (context, index) {
+                String month = groupedHistory.keys.elementAt(index);
+                List<HistoryModel> monthHistory = groupedHistory[month]!;
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  month,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w700),
-                ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: monthHistory.length,
-                itemBuilder: (context, index) {
-                  HistoryModel item = monthHistory[index];
-                  return HistoryTile(history: item);
-                },
-              ),
-            ],
-          );
-        },
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        month,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: monthHistory.length,
+                      itemBuilder: (context, index) {
+                        HistoryModel item = monthHistory[index];
+                        return HistoryTile(history: item);
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
