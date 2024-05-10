@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -101,7 +100,6 @@ class MyApp extends StatelessWidget {
       title: 'Handees',
       theme: buildTheme(lightColorScheme),
       // darkTheme: darkTheme,
-
       onGenerateRoute: mainRouter.onGenerateRoute,
       key: mainRouter.navigatorKey,
     );
