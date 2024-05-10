@@ -1,18 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:handees/apps/customer_app/services/booking_service.customer.dart';
-import 'package:handees/shared/data/handees/job_category.dart';
 import 'package:handees/shared/res/constants.dart';
 import 'package:handees/shared/res/uri.dart';
 import 'package:handees/shared/services/auth_service.dart';
-import 'package:handees/shared/services/places_service.dart';
-import 'package:handees/shared/ui/widgets/handee_snackbar.dart';
 import 'package:handees/shared/utils/utils.dart';
-import 'package:http/http.dart' as http;
-import 'package:location/location.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class Test extends StatefulWidget {

@@ -9,7 +9,9 @@ class AuthService {
   AuthService._(this.firebaseAuth) {
     firebaseAuth.idTokenChanges().listen((user) {
       user?.getIdToken().then((value) {
-        _token = value;
+        if (value != null) {
+          _token = value;
+        }
       });
     });
   }
@@ -32,7 +34,8 @@ class AuthService {
   }
 
   bool doesTokenExist() {
-    return _token.isNotEmpty;
+    if (_token.isEmpty) return false;
+    return true;
   }
 
   static bool isAuthenticated() => FirebaseAuth.instance.currentUser != null;
