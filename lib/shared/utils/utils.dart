@@ -129,3 +129,7 @@ void displaySnackbar(BuildContext context, String text) {
     ),
   );
 }
+
+String capitalize(String word) {
+  return word[0].toUpperCase() + word.substring(1);
+}

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:handees/apps/customer_app/features/history/model/history.dart';
 import 'package:handees/shared/data/handees/job_category.dart';
 import 'package:handees/shared/res/shapes.dart';
 import 'package:handees/shared/ui/widgets/service_state.dart';
+import 'package:intl/intl.dart';
 
 class HistoryTile extends StatelessWidget {
   const HistoryTile({
     Key? key,
-    required this.jobCategory,
+    required this.history,
   }) : super(key: key);
 
-  final JobCategory jobCategory;
+  final HistoryModel history;
 
   @override
   Widget build(BuildContext context) {
@@ -23,37 +25,48 @@ class HistoryTile extends StatelessWidget {
             children: [
               Container(
                 decoration: ShapeDecoration(
-                  color: jobCategory.foregroundColor.withOpacity(0.2),
-                  shape: Shapes.mediumShape,
+                  color: history.jobCategory.foregroundColor.withOpacity(0.2),
+                  shape: Shapes.extraBigShape,
                 ),
                 height: 72,
                 width: 72,
                 child: Center(
                   child: CircleAvatar(
-                    backgroundColor: jobCategory.foregroundColor,
-                    child: Icon(jobCategory.icon),
+                    backgroundColor: history.jobCategory.foregroundColor,
+                    child: Icon(history.jobCategory.icon),
                   ),
                 ),
               ),
               const SizedBox(width: 16.0),
               Expanded(
-                child: Text(
-                  jobCategory.name,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              ),
-              const SizedBox(width: 16.0),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const ServiceStateWidget.canceled(),
-                  Text(
-                    '4th Jan 2022',
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                ],
-              ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              history.jobCategory.name,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Text(
+                              DateFormat('dd MMM').format(history.date),
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 46.0),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          history.state,
+                          Text(
+                              DateFormat('dd MMM').format(history.date),
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
+        
             ],
           ),
         ),

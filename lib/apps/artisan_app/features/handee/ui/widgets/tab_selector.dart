@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handees/apps/artisan_app/features/handee/providers/handee-details.provider.dart';
+import 'package:handees/shared/utils/utils.dart';
 
 class DurationUnitTabSelector extends ConsumerWidget {
   final List<String> options;
@@ -33,7 +33,7 @@ class DurationUnitTabSelector extends ConsumerWidget {
                           ),
                           child: Center(
                             child: Text(
-                              option.capitalize(),
+                              capitalize(option),
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold),
                             ),
@@ -49,7 +49,7 @@ class DurationUnitTabSelector extends ConsumerWidget {
                             height: 46,
                             child: Center(
                               child: Text(
-                                option.capitalize(),
+                                capitalize(option),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),

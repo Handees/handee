@@ -58,4 +58,6 @@ abstract class CustomerAppRoutes {
   static const String settings = '/customer/settings';
   static const String support = '/customer/support';
   static const String servicesData = '/customer/services-data';
+
+  static const String review = '/customer/review';
 }
