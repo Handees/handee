@@ -65,6 +65,7 @@ dependencies:
   shared_preferences: ^2.2.2
   google_maps_flutter_platform_interface: ^2.4.1
   google_maps_flutter_android: ^2.5.3
+  flutter_screenutil: ^5.9.1
 
 dev_dependencies:
   flutter_test:
