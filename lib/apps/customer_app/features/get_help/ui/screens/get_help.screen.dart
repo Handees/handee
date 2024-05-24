@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handees/apps/customer_app/features/get_help/ui/widgets/get_help_Listtile.widget.dart';
 import 'package:handees/apps/customer_app/features/get_help/ui/widgets/get_help_artisan_info.widget.dart';
 
@@ -19,7 +20,12 @@ class GetHelpScreen extends StatelessWidget {
         centerTitle: true,
         title: Text(
           'Get Help',
-          style: Theme.of(context).textTheme.titleLarge,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18.sp,
+            color: Colors.black
+          )
+          // Theme.of(context).textTheme.titleLarge,
         ),
       ),
       body: SafeArea(
@@ -28,50 +34,79 @@ class GetHelpScreen extends StatelessWidget {
           children: [
             ArtisanInfoWidget(),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              padding: REdgeInsets.symmetric(vertical: 5.0),
               child: getHelpListTile(context,
                   onTap: () {},
                   text: 'Select an older service',
-                  textStyle: Theme.of(context).textTheme.titleMedium),
+                  textStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.sp,
+                      color: Colors.black
+                  ),
+              )
+                  // Theme.of(context).textTheme.titleMedium),
             ),
             Expanded(
               child: Container(
+                width: 1.sw,
                 color: Colors.white,
-                padding: EdgeInsets.only(left: 15, top: 25, right: 20),
+                padding: REdgeInsets.only(left: 15, top: 25, right: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Get help with something else',
-                      style: Theme.of(context).textTheme.titleMedium
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.sp,
+                          color: Colors.black
+                      ),
+                      // Theme.of(context).textTheme.titleMedium
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 10.h,
                     ),
                     getHelpListTile(context,
                         onTap: () {},
                         text: 'About Lavorh',
-                        textStyle: Theme.of(context).textTheme.bodyMedium,
-                        padding: EdgeInsets.zero),
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14.sp,
+                            color: Colors.black
+                        ),
+                        // Theme.of(context).textTheme.bodyMedium,
+                        padding: REdgeInsets.all(0)),
                     Divider(
-                        color: Theme.of(context).dividerColor
+                        color: Colors.grey[300]
+                        // Theme.of(context).dividerColor
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      padding: REdgeInsets.symmetric(vertical: 4.0),
                       child: getHelpListTile(context,
                           onTap: () {},
                           text: 'App and features',
-                          textStyle: Theme.of(context).textTheme.bodyMedium,
-                          padding: EdgeInsets.zero),
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14.sp,
+                              color: Colors.black
+                          ),
+                          // Theme.of(context).textTheme.bodyMedium,
+                          padding: REdgeInsets.all(0)),
                     ),
                     Divider(
-                       color: Theme.of(context).dividerColor,
+                       color: Colors.grey[300]
+                       // Theme.of(context).dividerColor,
                     ),
                     getHelpListTile(context,
                         onTap: () {},
                         text: 'Account and data',
-                        textStyle: Theme.of(context).textTheme.bodyMedium,
-                        padding: EdgeInsets.zero),
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14.sp,
+                            color: Colors.black
+                        ),
+                        // Theme.of(context).textTheme.bodyMedium,
+                        padding: REdgeInsets.all(0)),
                   ],
                 ),
               ),
