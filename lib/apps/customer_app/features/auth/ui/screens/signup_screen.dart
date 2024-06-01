@@ -184,7 +184,6 @@ class SignupScreen extends StatelessWidget {
                                         return;
                                       }
                                       _formGlobalKey.currentState?.save();
-
                                       showDialog(
                                         context: context,
                                         builder: (ctx) {

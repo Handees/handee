@@ -15,6 +15,8 @@ import 'package:handees/apps/artisan_app/features/chat/ui/screens/chat_screen.da
 import 'package:handees/apps/artisan_app/features/home/ui/home.artisan.dart';
 import 'package:handees/apps/artisan_app/features/withdrawal/ui/screens/earnings_screen.dart';
 import 'package:handees/apps/customer_app/features/artisan_switch/ui/screens/artisan_switch.screen.dart';
+import 'package:handees/apps/customer_app/features/auth/ui/screens/forget.screen.dart';
+import 'package:handees/apps/customer_app/features/auth/ui/screens/reset.password.screen.dart';
 import 'package:handees/apps/customer_app/features/profile/ui/edit_address.dart';
 import 'package:handees/apps/customer_app/features/profile/ui/edit_email.dart';
 import 'package:handees/apps/customer_app/features/profile/ui/edit_profile.dart';
@@ -77,9 +79,15 @@ final _authRouter = NavRouter(
       case AuthRoutes.signup:
         page = SignupScreen();
         break;
+      case AuthRoutes.resetPassword:
+        page = ResetPassword();
+        break;
       // case AuthRoutes.verify:
       //   page = VerifyScreen();
       //   break;
+      case AuthRoutes.forgetPassword:
+        page = ForgetPassword();
+        break;
       default:
     }
 
@@ -152,6 +160,7 @@ final _customerAppRouter = NavRouter(
       case CustomerAppRoutes.review:
         page = const ReviewScreen();
         break;
+
       default:
         throw Exception('Unknown route: ${settings.name}');
     }
