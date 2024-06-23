@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
-import '../../../../../../shared/res/icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:handees/apps/customer_app/features/auth/widgets/shared_widgets.dart';
 
 class ResetPassword extends StatelessWidget {
   ResetPassword({super.key});
@@ -13,7 +12,12 @@ class ResetPassword extends StatelessWidget {
   void onPasswordSaved(String? password) {
     _password.text = password!;
   }
-
+  void _onResetPressed() {
+    var errors =  _formKey.currentState!.validate();
+    if(errors == false){
+      _formKey.currentState!.save();
+    }
+  }
   String? passwordValidator(String? password) {
     if (password != null && password.length > 6 && _password.value.text != _confirmPassword.value.text) {
       return null;
@@ -25,135 +29,59 @@ class ResetPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Stack(children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 230.0),
-                child: SvgPicture.asset("assets/svg/key.svg"),
-              ),
-            ],
-          ),
-          Positioned(
-              right: 100,
-              top: 180,
-              child: Image(
-                image: AssetImage("assets/icon/key.png"),
-              )),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                "Reset \nPassword",
-                style: TextStyle(
-                  fontSize: 37,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    ValueListenableBuilder<bool>(
-                      valueListenable: _obscureTextNotifier,
-                      builder: (context, obscureText, child) {
-                        return TextFormField(
-                            obscureText: obscureText,
-                            decoration: InputDecoration(
-                            hintText: 'New password',
-                            prefixIcon: Image.asset("assets/icon/lock.png"),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                              obscureText
-                                ? HandeeIcons.eyeTrackingOff
-                                : HandeeIcons.eyeTrackingOn,
-                              ),
-                              color: obscureText
-                                ? Theme.of(context).unselectedWidgetColor
-                                : null,
-                              onPressed: () {
-                              _obscureTextNotifier.value = !obscureText;
-                              },
-                            ),
-                            border:  const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                              color: Colors.grey,
-                              ),
-                            ),
-                            ),
-                          onSaved: onPasswordSaved,
-                          validator: passwordValidator,                         
-                        );
-                      },
-                    ),
-                    SizedBox(height: 20,),
-                    ValueListenableBuilder<bool>(
-                      valueListenable: _obscureTextNotifier,
-                      builder: (context, obscureText, child) {
-                        return TextFormField(
-                          obscureText: obscureText,
-                          onSaved: onPasswordSaved,
-                          validator: passwordValidator,
-                          decoration: InputDecoration(
-                            hintText: 'Confirm password',
-                            prefixIcon: Image.asset("assets/icon/lock.png"),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                obscureText
-                                    ? HandeeIcons.eyeTrackingOff
-                                    : HandeeIcons.eyeTrackingOn,
-                              ),
-                              color: obscureText
-                                  ? Theme.of(context).unselectedWidgetColor
-                                  : null,
-                              onPressed: () {
-                                _obscureTextNotifier.value = !obscureText;
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-
-              ),
-              SizedBox(height: 20.0),
-              GestureDetector(
-                onTap: (){
-                 var errors =  _formKey.currentState!.validate();
-                 if(errors == false){
-                   _formKey.currentState!.save();
-
-                 }
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 60,
-                  decoration: BoxDecoration(color: Color(0xffFFFFFF)),
-                  child: Center(
-                    child: Text(
-                      "Reset Password",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w700),
+        body:  Container(
+          padding: EdgeInsets.only(bottom: 50.sp,top: 30),
+          child: DecoratedBox(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                alignment: Alignment.topCenter,
+                  image: AssetImage("assets/icon/reset.password.png"), fit: BoxFit.contain),
+            ),
+            child:  Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                const  Text(
+                    "Reset \nPassword",
+                    style: TextStyle(
+                      fontSize: 37,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                ),
+                  50.verticalSpace,
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        buildPasswordField(password: _password, obscureTextNotifier: _obscureTextNotifier, passwordError: passwordError, passwordValidator: passwordValidator, onPasswordSaved: onPasswordSaved, hintText: 'New Password'),
+                       20.verticalSpace,
+                        buildPasswordField(password: _password, obscureTextNotifier: _obscureTextNotifier, passwordError: passwordError, passwordValidator: passwordValidator, onPasswordSaved: onPasswordSaved, hintText: 'Confirm Password'),
+                      ],
+                    ),
+                  ),
+                 30.verticalSpace,
+                  GestureDetector(
+                    onTap: _onResetPressed,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 60.h,
+                      decoration: const BoxDecoration(color: Color(0xffFFFFFF)),
+                      child: const Center(
+                        child:  Text(
+                          "Reset",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 40,
-              )
-            ],
+            ),
           ),
-        ]),
+        ),
       ),
     );
   }
