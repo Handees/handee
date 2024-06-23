@@ -1,11 +1,11 @@
 import 'dart:io';
-
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:handees/apps/customer_app/features/home/providers/user.provider.dart';
 
@@ -97,14 +97,23 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark));
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Handees',
-      theme: buildTheme(lightColorScheme),
-      // darkTheme: darkTheme,
-
-      onGenerateRoute: mainRouter.onGenerateRoute,
-      key: mainRouter.navigatorKey,
+    return ScreenUtilInit(
+      useInheritedMediaQuery: true,
+      designSize: const Size(414, 896),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      ensureScreenSize: true,
+      builder: (context, child){
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Handees',
+          theme: buildTheme(lightColorScheme),
+          // darkTheme: darkTheme,
+          onGenerateRoute: mainRouter.onGenerateRoute,
+          key: mainRouter.navigatorKey,
+        );
+      },
     );
   }
 }
+
