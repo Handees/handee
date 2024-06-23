@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:handees/apps/customer_app/services/storage_service.customer.dart';
 import 'package:handees/shared/utils/utils.dart';
 
 class AuthService {
@@ -209,17 +210,32 @@ class AuthService {
     await firebaseAuth.signOut();
     cb();
   }
+Future<AuthResponse> resetPassword(String email) async {
+  try {
+    await firebaseAuth.sendPasswordResetEmail(email: email);
+    return AuthResponse.success;
+  } on FirebaseAuthException catch (e) {
+    String message = 'An error occurred';
+    AuthResponse response;
+
+    switch (e.code) {
+      case 'user-not-found':
+        message = 'No user found for that email.';
+        response = AuthResponse.noSuchEmail;
+        break;
+      default:
+        message = 'Auth Exception: $e';
+        response = AuthResponse.unknownError;
+    }
+
+    debugPrint(message);
+    return response;
+  } catch (e) {
+    final message = 'Auth Exception: $e';
+    debugPrint(message);
+    return AuthResponse.unknownError;
+  }
+}
 }
 
-enum AuthResponse {
-  success,
-  incorrectPassword,
-  noSuchEmail,
-  unknownError,
-  weakPassword,
-  emailInUse,
-  phoneInUse,
-  invalidEmail,
-  invalidPhone,
-  invalidVerificationCode,
-}
+

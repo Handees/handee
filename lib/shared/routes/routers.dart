@@ -86,7 +86,7 @@ final _authRouter = NavRouter(
       //   page = VerifyScreen();
       //   break;
       case AuthRoutes.forgetPassword:
-        page = ForgetPassword();
+        page = ForgetPasswordScreen();
         break;
       default:
     }

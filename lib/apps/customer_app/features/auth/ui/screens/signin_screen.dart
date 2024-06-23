@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:handees/apps/customer_app/features/auth/viewmodels/signin_viewmodel.dart';
@@ -107,7 +106,7 @@ class SigninScreen extends ConsumerWidget {
                                     ),
                                     InkWell(
                                       onTap: () => Navigator.of(context)
-                                          .pushReplacementNamed(AuthRoutes.forgetPassword),
+                                          .pushNamed(AuthRoutes.forgetPassword),
                                       child: const Text('Reset it'),
                                     ),
                                   ],

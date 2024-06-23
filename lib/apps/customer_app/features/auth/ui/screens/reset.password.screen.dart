@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -67,26 +66,31 @@ class ResetPassword extends StatelessWidget {
                       valueListenable: _obscureTextNotifier,
                       builder: (context, obscureText, child) {
                         return TextFormField(
-                          obscureText: obscureText,
-                          onSaved: onPasswordSaved,
-                          validator: passwordValidator,
-                          decoration: InputDecoration(
+                            obscureText: obscureText,
+                            decoration: InputDecoration(
                             hintText: 'New password',
                             prefixIcon: Image.asset("assets/icon/lock.png"),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                obscureText
-                                    ? HandeeIcons.eyeTrackingOff
-                                    : HandeeIcons.eyeTrackingOn,
+                              obscureText
+                                ? HandeeIcons.eyeTrackingOff
+                                : HandeeIcons.eyeTrackingOn,
                               ),
                               color: obscureText
-                                  ? Theme.of(context).unselectedWidgetColor
-                                  : null,
+                                ? Theme.of(context).unselectedWidgetColor
+                                : null,
                               onPressed: () {
-                                _obscureTextNotifier.value = !obscureText;
+                              _obscureTextNotifier.value = !obscureText;
                               },
                             ),
-                          ),
+                            border:  const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                              color: Colors.grey,
+                              ),
+                            ),
+                            ),
+                          onSaved: onPasswordSaved,
+                          validator: passwordValidator,                         
                         );
                       },
                     ),
