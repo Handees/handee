@@ -106,7 +106,7 @@ class SigninScreen extends ConsumerWidget {
                                     ),
                                     InkWell(
                                       onTap: () => Navigator.of(context)
-                                          .pushNamed(AuthRoutes.resetPassword),
+                                          .pushNamed(AuthRoutes.forgetPassword),
                                       child: const Text('Reset it'),
                                     ),
                                   ],
