@@ -112,6 +112,12 @@ class ArtisanSocketNotifier extends StateNotifier<io.Socket> {
     });
   }
 
+  void startJob(String bookingId) {
+    state.emit(ArtisanSocketEmitEvents.startJob, {
+      'booking_id': bookingId
+      });
+}
+
   Stream<T> onArtisanEvent<T>(String event) {
     if (state.disconnected) throw const SocketException.closed();
 
