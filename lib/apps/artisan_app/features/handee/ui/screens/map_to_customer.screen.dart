@@ -67,6 +67,27 @@ class _MapToCustomerScreenState extends ConsumerState<MapToCustomerScreen> {
     destinationIcon = BitmapDescriptor.fromBytes(markerIcon);
   }
 
+  void updateDistanceFromDestination(_, LocationData next) async {
+    GoogleMapController controller = await _controller.future;
+    await getPolyPoints(LatLng(next.latitude!, next.longitude!));
+
+    const distance = latlong.Distance();
+    final double meter = distance(
+      latlong.LatLng(next.latitude!, next.longitude!),
+      latlong.LatLng(destination.latitude, destination.longitude),
+    );
+    if (meter <= maximumArrivalDistance) {
+      setState(() {
+        hasArtisanArrived = true;
+      });
+    }
+
+    setState(() {
+      controller.animateCamera(
+          CameraUpdate.newLatLng(LatLng(next.latitude!, next.longitude!)));
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -75,6 +96,7 @@ class _MapToCustomerScreenState extends ConsumerState<MapToCustomerScreen> {
     destination = LatLng(currentOffer.lat, currentOffer.lon);
     final location = ref.read(locationProvider);
     if (location.latitude != null && location.longitude != null) {
+      updateDistanceFromDestination(null, location);
       getPolyPoints(LatLng(location.latitude!, location.longitude!));
     }
   }
@@ -82,7 +104,6 @@ class _MapToCustomerScreenState extends ConsumerState<MapToCustomerScreen> {
   @override
   Widget build(BuildContext context) {
     LocationData location = ref.watch(locationProvider);
-    dPrint(location.latitude);
     if (location.latitude == null || location.longitude == null) {
       return const Scaffold(
         body: Center(
@@ -91,26 +112,7 @@ class _MapToCustomerScreenState extends ConsumerState<MapToCustomerScreen> {
       );
     }
 
-    ref.listen(locationProvider, (LocationData? prev, LocationData next) async {
-      GoogleMapController controller = await _controller.future;
-      await getPolyPoints(LatLng(next.latitude!, next.longitude!));
-
-      const distance = latlong.Distance();
-      final double meter = distance(
-        latlong.LatLng(next.latitude!, next.longitude!),
-        latlong.LatLng(destination.latitude, destination.longitude),
-      );
-      if (meter <= maximumArrivalDistance) {
-        setState(() {
-          hasArtisanArrived = true;
-        });
-      }
-
-      setState(() {
-        controller.animateCamera(
-            CameraUpdate.newLatLng(LatLng(next.latitude!, next.longitude!)));
-      });
-    });
+    ref.listen(locationProvider, updateDistanceFromDestination);
 
     Set<Marker> markers = {
       Marker(

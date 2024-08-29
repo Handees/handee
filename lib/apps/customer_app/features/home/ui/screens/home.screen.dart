@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:handees/apps/artisan_app/features/home/providers/artisan-location.provider.dart';
+import 'package:handees/apps/customer_app/features/home/providers/booking.provider.dart';
+import 'package:handees/apps/customer_app/features/home/ui/widgets/pick_service_bottom_sheet.dart';
 import 'package:handees/apps/customer_app/features/home/ui/widgets/search.dart';
 
 import 'package:handees/apps/customer_app/features/home/ui/widgets/swap_button.dart';
@@ -12,6 +15,7 @@ import 'package:handees/shared/res/icons.dart';
 import 'package:handees/shared/routes/routes.dart';
 import 'package:handees/shared/services/auth_service.dart';
 import 'package:handees/shared/ui/widgets/custom_bottom_sheet.dart';
+import 'package:handees/shared/utils/utils.dart';
 import '../../providers/user.provider.dart';
 import '../widgets/location_picker.dart';
 import '../widgets/service_card.dart';
@@ -35,6 +39,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     const horizontalPadding = 16.0;
 
     final user = ref.watch(userProvider);
+    final location = ref.watch(customerLocationProvider);
 
     const categories = JobCategory.values;
 
@@ -143,7 +148,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         const Divider(),
                         ListTile(
-                          onTap: () => Navigator.of(context).pushNamed(CustomerAppRoutes.support),
+                          onTap: () => Navigator.of(context)
+                              .pushNamed(CustomerAppRoutes.support),
                           leading: const Icon(HandeeIcons.personSupport),
                           title: const Text('Customer Support'),
                         ),
@@ -259,43 +265,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         (context, index) {
                           return InkWell(
                             onTap: () {
-                              // showModalBottomSheet(
-                              //   context: context,
-                              //   isScrollControlled: true,
-                              //   builder: (sheetCtx) {
-                              //     return Padding(
-                              //       padding: EdgeInsets.only(
-                              //         bottom: MediaQuery.of(sheetCtx)
-                              //             .viewInsets
-                              //             .bottom,
-                              //       ),
-                              //       child: PickServiceBottomSheet(
-                              //         category: categories[index],
-                              //         onClick: () {
-                              //           Navigator.of(context)
-                              //               .pushNamed(
-                              //                   CustomerAppRoutes.pickService)
-                              //               .then((res) {
-                              //             if (res != null &&
-                              //                 location.latitude != null) {
-                              //               dPrint("Called bookservice");
-                              //               ref
-                              //                   .read(bookingProvider.notifier)
-                              //                   .bookService(
-                              //                     category: categories[index],
-                              //                     location: location,
-                              //                   );
-                              //               Navigator.of(context).pushNamed(
-                              //                   CustomerAppRoutes.tracking);
-                              //             }
-                              //           });
-                              //         },
-                              //       ),
-                              //     );
-                              //   },
-                              // );
-                              Navigator.of(context)
-                                  .pushNamed(CustomerAppRoutes.review);
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (sheetCtx) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(sheetCtx)
+                                          .viewInsets
+                                          .bottom,
+                                    ),
+                                    child: PickServiceBottomSheet(
+                                      category: categories[index],
+                                      onClick: () {
+                                        Navigator.of(context)
+                                            .pushNamed(
+                                                CustomerAppRoutes.pickService)
+                                            .then((res) {
+                                          if (res != null &&
+                                              location.latitude != null) {
+                                            dPrint("Called bookservice");
+                                            ref
+                                                .read(bookingProvider.notifier)
+                                                .bookService(
+                                                  category: categories[index],
+                                                  location: location,
+                                                );
+                                            Navigator.of(context).pushNamed(
+                                                CustomerAppRoutes.tracking);
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  );
+                                },
+                              );
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:handees/apps/customer_app/features/tracker/ui/tracking_screen.dart';
+import 'package:handees/apps/customer_app/features/tracker/ui/arrived_bottom_sheet.dart';
 
 class OngoingServiceHeader extends StatelessWidget {
   const OngoingServiceHeader({
