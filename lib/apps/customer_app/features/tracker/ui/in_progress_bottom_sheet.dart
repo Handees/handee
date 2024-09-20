@@ -404,7 +404,7 @@ class _InProgressBottomSheetState extends ConsumerState<InProgressBottomSheet>
                         label: const Text('Cancel Service'),
                         style:
                             Theme.of(context).textButtonTheme.style?.copyWith(
-                                  foregroundColor: MaterialStateProperty.all(
+                                  foregroundColor: WidgetStateProperty.all(
                                     Theme.of(context).colorScheme.error,
                                   ),
                                 ),

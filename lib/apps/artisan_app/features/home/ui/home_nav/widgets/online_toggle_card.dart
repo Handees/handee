@@ -105,7 +105,7 @@ class _OnlineToggleCardState extends ConsumerState<OnlineToggleCard>
                   },
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(const Color(0xffa8dadc)),
+                        WidgetStateProperty.all(const Color(0xffa8dadc)),
                   ),
                   child: const Text("YOU'RE ONLINE"))
               : GestureDetector(
@@ -130,7 +130,7 @@ class _OnlineToggleCardState extends ConsumerState<OnlineToggleCard>
                     onPressed: () {},
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Colors.transparent),
+                          WidgetStateProperty.all(Colors.transparent),
                     ),
                     child: Text(buttonText),
                   ),

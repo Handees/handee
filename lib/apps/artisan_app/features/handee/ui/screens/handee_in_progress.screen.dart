@@ -147,7 +147,7 @@ class HandeeInProgressScreen extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 20),
                   child: FilledButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(
+                      backgroundColor: WidgetStatePropertyAll(
                         getHexColor('cc4b4b'),
                       ),
                     ),

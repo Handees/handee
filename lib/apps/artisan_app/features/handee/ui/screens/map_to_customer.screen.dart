@@ -292,7 +292,7 @@ class OfferInfo extends ConsumerWidget {
                     openUrl(callPhoneNo);
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
+                    backgroundColor: WidgetStateProperty.all(
                       getHexColor('f2f3f4'),
                     ),
                   ),
@@ -328,7 +328,7 @@ class OfferInfo extends ConsumerWidget {
                     openUrl(sendSms);
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
+                    backgroundColor: WidgetStateProperty.all(
                       getHexColor('f2f3f4'),
                     ),
                   ),

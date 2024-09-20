@@ -7,19 +7,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:handees/apps/artisan_app/features/handee/utils/helpers.dart';
 import 'package:handees/apps/customer_app/features/home/providers/booking.provider.dart';
-import 'package:handees/apps/customer_app/features/tracker/providers/artisan_info.provider.dart';
 import 'package:handees/apps/customer_app/features/tracker/providers/customer_location.provider.dart';
 import 'package:handees/apps/customer_app/features/tracker/ui/arrived_bottom_sheet.dart';
 import 'package:handees/shared/res/constants.dart';
 
-import 'package:handees/shared/res/shapes.dart';
-import 'package:handees/shared/routes/routes.dart';
 import 'package:handees/shared/ui/widgets/circle_fadeout_loader.dart';
 import 'package:handees/shared/utils/utils.dart';
 
 import 'in_progress_bottom_sheet.dart';
 import 'loading_bottom_sheet.dart';
-import 'package:latlong2/latlong.dart' as latlong;
 
 const maximumArrivalDistance = 30;
 

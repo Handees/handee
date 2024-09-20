@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:handees/apps/artisan_app/features/home/providers/artisan-location.provider.dart';
 import 'package:handees/apps/customer_app/features/home/providers/booking.provider.dart';
 import 'package:handees/apps/customer_app/features/home/ui/widgets/pick_service_bottom_sheet.dart';
 import 'package:handees/apps/customer_app/features/home/ui/widgets/search.dart';

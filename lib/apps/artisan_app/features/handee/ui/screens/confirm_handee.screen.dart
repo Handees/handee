@@ -149,7 +149,7 @@ class _ConfirmHandeeScreenState extends ConsumerState<ConfirmHandeeScreen> {
                             Navigator.of(context).pop();
                           },
                           style: const ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
+                            backgroundColor: WidgetStatePropertyAll(
                                 Color.fromRGBO(249, 22, 22, 0.05)),
                           ),
                           child: Text(
