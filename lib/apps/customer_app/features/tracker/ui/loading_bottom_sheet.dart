@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:handees/shared/data/handees/job_category.dart';
 import 'package:handees/shared/res/shapes.dart';

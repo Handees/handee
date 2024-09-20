@@ -60,8 +60,8 @@ class ArtisanSocketNotifier extends StateNotifier<io.Socket> {
     // state.emit(
     //   ArtisanSocketEmitEvents.locationUpdate,
     //   {
-    //     "lat": 6.548281268456966,
-    //     "lon": 3.332248000980724,
+    //     "lat": 6.5482333,
+    //     "lon": 3.3320433,
     //     "job_category": jobCategory.id,
     //   },
     // );

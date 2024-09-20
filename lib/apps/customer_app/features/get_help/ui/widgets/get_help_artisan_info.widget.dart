@@ -86,7 +86,7 @@ class ArtisanInfoWidget extends ConsumerWidget {
                 Container(
                   height: 32.h,
                   width: 30.w,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.grey,
                     shape: BoxShape.circle,
                   ),

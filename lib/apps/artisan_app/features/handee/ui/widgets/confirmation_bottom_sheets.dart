@@ -47,8 +47,8 @@ class OneTimeConfirmationBottomSheet extends ConsumerWidget {
                                 1)
                         : () {},
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(EdgeInsets.zero),
-                      shape: MaterialStateProperty.all(
+                      padding: WidgetStateProperty.all(EdgeInsets.zero),
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                             22,
@@ -77,8 +77,8 @@ class OneTimeConfirmationBottomSheet extends ConsumerWidget {
                             ref.read(handeeApprovalDetailsProvider).duration! +
                                 1),
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(EdgeInsets.zero),
-                      shape: MaterialStateProperty.all(
+                      padding: WidgetStateProperty.all(EdgeInsets.zero),
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                             22,
@@ -137,8 +137,8 @@ class ContractConfirmationBottomSheet extends ConsumerWidget {
                                 1)
                         : () {},
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(EdgeInsets.zero),
-                      shape: MaterialStateProperty.all(
+                      padding: WidgetStateProperty.all(EdgeInsets.zero),
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                             22,
@@ -167,8 +167,8 @@ class ContractConfirmationBottomSheet extends ConsumerWidget {
                             ref.read(handeeApprovalDetailsProvider).duration! +
                                 1),
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(EdgeInsets.zero),
-                      shape: MaterialStateProperty.all(
+                      padding: WidgetStateProperty.all(EdgeInsets.zero),
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                             22,

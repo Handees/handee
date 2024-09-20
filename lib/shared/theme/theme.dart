@@ -48,15 +48,15 @@ const _authColorScheme = ColorScheme.dark(
 final darkColorScheme = ColorScheme.dark(
   primary: const Color.fromARGB(255, 97, 97, 97),
   onPrimary: Colors.white,
-  background: ThemeData.dark().scaffoldBackgroundColor,
+  surface: ThemeData.dark().scaffoldBackgroundColor,
   brightness: Brightness.dark,
 );
 
 final _buttonStyle = ButtonStyle(
-  padding: MaterialStateProperty.all<EdgeInsets>(
+  padding: WidgetStateProperty.all<EdgeInsets>(
     const EdgeInsets.all(16),
   ),
-  shape: MaterialStateProperty.all(Shapes.bigShape),
+  shape: WidgetStateProperty.all(Shapes.bigShape),
 );
 
 InputDecorationTheme _buildInputDecorationTheme(ColorScheme colorScheme) =>
@@ -77,9 +77,9 @@ ThemeData buildTheme(ColorScheme colorScheme) => ThemeData.from(
       dividerTheme:
           const DividerThemeData(color: Color.fromRGBO(150, 162, 168, 0.12)),
       appBarTheme: const AppBarTheme().copyWith(centerTitle: true),
-      scaffoldBackgroundColor: colorScheme.background,
+      scaffoldBackgroundColor: colorScheme.surface,
       radioTheme: RadioThemeData(
-        fillColor: MaterialStateProperty.all(colorScheme.primary),
+        fillColor: WidgetStateProperty.all(colorScheme.primary),
       ),
 
       filledButtonTheme: FilledButtonThemeData(style: _buttonStyle),

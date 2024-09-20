@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:handees/generated/assets.dart';
 
 import '../../../../../shared/utils/utils.dart';
 import '../../../../artisan_app/features/handee/ui/screens/handee_concluded.screen.dart';

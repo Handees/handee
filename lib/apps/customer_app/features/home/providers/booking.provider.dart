@@ -27,7 +27,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
     _ref.read(customerLocationProvider.notifier).initLocation();
     _socket.connect();
     _socket.onBookingOfferAccepted((data) {
-      dPrint(data);
       _ref
           .read(currentBookingProvider.notifier)
           .updateCurrentBooking(Booking.fromJson(data));
@@ -44,7 +43,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
     _socket.onArtisanArrived((event) {
       state = BookingState.arrived;
     });
-    // _socket.onApproveBookingDetails((p0) { })
+    _socket.onApproveBookingDetails((data) {
+      dPrint(data);
+    });
   }
 
   @override
@@ -66,6 +67,10 @@ class BookingNotifier extends StateNotifier<BookingState> {
       lon: location.longitude!,
       category: category,
     );
+  }
+
+  void setArtisanArrived() {
+    state = BookingState.arrived;
   }
 }
 
