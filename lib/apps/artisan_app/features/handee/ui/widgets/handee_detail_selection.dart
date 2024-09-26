@@ -152,25 +152,28 @@ class HandeeDetailSelection extends ConsumerWidget {
           child: Column(
             children: options
                 .map<Widget>(
-                  (option) => Padding(padding: const EdgeInsets.symmetric(vertical: 11),
-                  child:DurationOption(
-                    isSelected: handeeOption == option.title,
-                    title: option.title,
-                    description: option.description,
-                    activeDescription: getActiveDescription(option.title, ref),
-                    onTap: () {
-                      type == HandeeOptionTypes.workDuration
-                          ? ref
-                              .read(handeeApprovalDetailsProvider.notifier)
-                              .updateWorkDuration(option.title)
-                          : type == HandeeOptionTypes.paymentOption
+                  (option) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 11),
+                      child: DurationOption(
+                        isSelected: handeeOption == option.title,
+                        title: option.title,
+                        description: option.description,
+                        activeDescription:
+                            getActiveDescription(option.title, ref),
+                        onTap: () {
+                          type == HandeeOptionTypes.workDuration
                               ? ref
                                   .read(handeeApprovalDetailsProvider.notifier)
-                                  .updatePaymentOption(option.title)
-                              : null;
-                      launchBottomSheet(option.title, context);
-                    },
-                  )),
+                                  .updateWorkDuration(option.title)
+                              : type == HandeeOptionTypes.paymentOption
+                                  ? ref
+                                      .read(handeeApprovalDetailsProvider
+                                          .notifier)
+                                      .updatePaymentOption(option.title)
+                                  : null;
+                          launchBottomSheet(option.title, context);
+                        },
+                      )),
                 )
                 .toList(),
           ),

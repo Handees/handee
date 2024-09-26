@@ -205,10 +205,10 @@ class ContractHandeeInProgress extends ConsumerWidget {
                               child: FilledButton(
                                 onPressed: () {},
                                 style: const ButtonStyle(
-                                  padding: MaterialStatePropertyAll(
+                                  padding: WidgetStatePropertyAll(
                                     EdgeInsets.all(8),
                                   ),
-                                  backgroundColor: MaterialStatePropertyAll(
+                                  backgroundColor: WidgetStatePropertyAll(
                                     Color.fromRGBO(20, 22, 28, 0.1),
                                   ),
                                 ),
@@ -276,10 +276,10 @@ class ContractHandeeInProgress extends ConsumerWidget {
                               child: FilledButton(
                                 onPressed: () {},
                                 style: ButtonStyle(
-                                  padding: const MaterialStatePropertyAll(
+                                  padding: const WidgetStatePropertyAll(
                                     EdgeInsets.all(8),
                                   ),
-                                  backgroundColor: MaterialStatePropertyAll(
+                                  backgroundColor: WidgetStatePropertyAll(
                                     getHexColor('418DF4'),
                                   ),
                                 ),
@@ -301,7 +301,7 @@ class ContractHandeeInProgress extends ConsumerWidget {
                         height: 60,
                         child: FilledButton(
                           style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
+                            backgroundColor: WidgetStatePropertyAll(
                               getHexColor('14161c'),
                             ),
                           ),

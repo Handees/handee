@@ -45,7 +45,10 @@ dependencies:
   uuid: ^3.0.7
   animations: ^2.0.7
   firebase_app_check: ^0.1.4+1
-  flutter_paystack: ^1.0.7
+  flutter_paystack:
+    git:
+      url: https://github.com/dro-1/flutter_paystack.git
+      ref: master
   http: ^0.13.6
   intl: ^0.17.0
   image_picker: ^0.8.7+5

@@ -13,6 +13,6 @@ Widget getHelpListTile(context,
       text,
       style: textStyle,
     ),
-    trailing: Icon(Icons.arrow_forward_ios_rounded),
+    trailing: const Icon(Icons.arrow_forward_ios_rounded),
   );
 }

@@ -35,9 +35,12 @@ class BookingService {
       },
       body: jsonEncode(
         {
-          'lat': lat,
-          'lon': lon,
-          // 'user_id': FirebaseAuth.instance.currentUser!.uid,
+          // 'lat': lat,
+          // 'lon': lon,
+          'lat': 6.5482333,
+          'lon': 3.3320433,
+          //TODO: Hook this up with the payment methods screen
+          'payment_method': "cash",
           'job_category': category.id,
         },
       ),

@@ -4,12 +4,12 @@ import 'package:handees/shared/res/icons.dart';
 Widget brushIconWidget() {
   return Expanded(
     child: Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: ShapeDecoration(
-        color: Color.fromRGBO(255, 125, 203, 1).withOpacity(0.2),
-        shape: CircleBorder(),
+        color: const Color.fromRGBO(255, 125, 203, 1).withOpacity(0.2),
+        shape: const CircleBorder(),
       ),
-      child: CircleAvatar(
+      child: const CircleAvatar(
         radius: 15,
         backgroundColor: Color.fromRGBO(255, 125, 203, 1),
         child: Icon(
