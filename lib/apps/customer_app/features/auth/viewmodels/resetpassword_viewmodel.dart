@@ -14,6 +14,9 @@ class ForgetPasswordViewModel extends ChangeNotifier with InputValidationMixin {
   String? _emailError;
   String? get emailError => _emailError;
 
+  bool _isResetSuccessful = false;
+  bool get isResetSuccessful => _isResetSuccessful;
+
   bool _loading = false;
   bool get loading => _loading;
   WidgetRef? ref;
@@ -33,7 +36,6 @@ class ForgetPasswordViewModel extends ChangeNotifier with InputValidationMixin {
 
   Future<void> resetPassword({
     required void Function() onSuccess,
-    required void Function() onUnknownError,
   }) async {
     _loading = true;
     resetErrors();
@@ -44,15 +46,13 @@ class ForgetPasswordViewModel extends ChangeNotifier with InputValidationMixin {
     switch (response) {
       case AuthResponse.success:
         onSuccess();
+        _isResetSuccessful = true;
         break;
       case AuthResponse.noSuchEmail:
         _emailError = 'No account exists with this email';
         break;
-      case AuthResponse.unknownError:
-        onUnknownError();
-        break;
       default:
-        onUnknownError();
+        dPrint(response);
     }
     _loading = false;
     notifyListeners();

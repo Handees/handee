@@ -80,9 +80,9 @@ final _authRouter = NavRouter(
       case AuthRoutes.signup:
         page = SignupScreen();
         break;
-      case AuthRoutes.resetPassword:
-        page = ResetPassword();
-        break;
+      // case AuthRoutes.resetPassword:
+      //   page = ResetPassword();
+      //   break;
       // case AuthRoutes.verify:
       //   page = VerifyScreen();
       //   break;

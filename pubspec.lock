@@ -329,10 +329,11 @@ packages:
   flutter_paystack:
     dependency: "direct main"
     description:
-      name: flutter_paystack
-      sha256: b2038c8f0cfa5a3bdb7b0e2016ceaedbc57e4445180ce6aea56cb0d83a016973
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "4f09ee91fc94710f640ddf44f277d5d65e9fe7aa"
+      url: "https://github.com/dro-1/flutter_paystack.git"
+    source: git
     version: "1.0.7"
   flutter_plugin_android_lifecycle:
     dependency: transitive
