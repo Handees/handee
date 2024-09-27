@@ -61,7 +61,8 @@ void main() async {
     return stack;
   };
 
-  final container = ProviderContainer();
+  final container = ProviderContainer(
+  );
 
   // All async calls that must be made to allow the app function properly should be put here
 

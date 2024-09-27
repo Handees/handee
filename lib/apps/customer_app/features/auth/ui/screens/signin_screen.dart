@@ -91,6 +91,26 @@ class SigninScreen extends ConsumerWidget {
                                     );
                                   },
                                 ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                 Row(
+                                  children: [
+                                    const Text("Forgot Password?",style: TextStyle(
+                                      color: Color(0xff949494),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w600,
+                                    ), ),
+                                   const SizedBox(
+                                      width: 3,
+                                    ),
+                                    InkWell(
+                                      onTap: () => Navigator.of(context)
+                                          .pushNamed(AuthRoutes.forgetPassword),
+                                      child: const Text('Reset it'),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
