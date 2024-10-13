@@ -4,6 +4,7 @@ import 'package:handees/apps/customer_app/features/home/ui/widgets/search.dart';
 import 'package:handees/apps/customer_app/features/home/ui/widgets/swap_button.dart';
 import 'package:handees/apps/customer_app/features/tracker/providers/customer_location.provider.dart';
 import 'package:handees/shared/data/handees/job_category.dart';
+import 'package:handees/shared/data/user/models/api_user.model.dart';
 import 'package:handees/shared/res/icons.dart';
 import 'package:handees/shared/routes/routes.dart';
 import 'package:handees/shared/services/auth_service.dart';
@@ -76,7 +77,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _buildDrawer(BuildContext context, dynamic user) {
+  Widget _buildDrawer(BuildContext context, ApiUserModel user) {
     return Drawer(
       child: CustomScrollView(
         slivers: [
@@ -94,7 +95,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _buildDrawerHeader(BuildContext context, dynamic user) {
+  Widget _buildDrawerHeader(BuildContext context, ApiUserModel user) {
     return DrawerHeader(
       padding: const EdgeInsets.all(16.0),
       child: Align(
@@ -130,34 +131,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   List<Widget> _buildDrawerItems(BuildContext context) {
     return [
-      _buildDrawerItem(
+      DrawerItem(
         icon: HandeeIcons.payment,
         title: 'Payments',
         onTap: () =>
             Navigator.of(context).pushNamed(CustomerAppRoutes.payments),
       ),
-      _buildDrawerItem(
+      DrawerItem(
         icon: Icons.history,
         title: 'History',
         onTap: () => Navigator.of(context).pushNamed(CustomerAppRoutes.history),
       ),
-      _buildDrawerItem(
+      DrawerItem(
         icon: Icons.settings_outlined,
         title: 'Settings',
         onTap: () =>
             Navigator.of(context).pushNamed(CustomerAppRoutes.settings),
       ),
-      _buildDrawerItem(
+      DrawerItem(
         icon: HandeeIcons.personSupport,
         title: 'Customer Support',
         onTap: () => Navigator.of(context).pushNamed(CustomerAppRoutes.support),
       ),
-      _buildDrawerItem(
+      DrawerItem(
         icon: HandeeIcons.chatHelp,
         title: 'FAQ',
         onTap: () {},
       ),
-      _buildDrawerItem(
+      DrawerItem(
         icon: Icons.exit_to_app,
         title: 'Sign Out',
         onTap: () {
@@ -167,23 +168,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         },
       ),
     ];
-  }
-
-  Widget _buildDrawerItem({
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    return Column(
-      children: [
-        ListTile(
-          onTap: onTap,
-          leading: Icon(icon),
-          title: Text(title),
-        ),
-        const Divider(),
-      ],
-    );
   }
 
   void _showSwapBottomSheet() {
@@ -213,6 +197,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         );
       },
+    );
+  }
+}
+
+class DrawerItem extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final VoidCallback onTap;
+  const DrawerItem(
+      {required this.icon,
+      required this.title,
+      required this.onTap,
+      super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListTile(
+          onTap: onTap,
+          leading: Icon(icon),
+          title: Text(title),
+        ),
+        const Divider(),
+      ],
     );
   }
 }

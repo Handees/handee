@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:handees/shared/res/shapes.dart';
+import 'package:handees/shared/utils/utils.dart';
 
 class SearchWidget extends StatefulWidget {
   final Function(String) onSearch;
