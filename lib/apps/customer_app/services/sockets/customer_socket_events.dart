@@ -6,6 +6,7 @@ abstract class CustomerSocketListenEvents {
   static const String approveBookingDetails = "approve_booking_details";
   static const String artisanArrived = "artisan_arrived";
   static const String artisanLocationUpdate = "artisan_location_update";
+  static const String jobStarted = "job_started";
 }
 
 abstract class CustomerSocketEmitEvents {
