@@ -16,7 +16,7 @@ import 'package:handees/shared/utils/utils.dart';
 import 'package:latlong2/latlong.dart' as latlong;
 import 'package:location/location.dart';
 
-const maximumArrivalDistance = 30;
+const maximumArrivalDistance = 100;
 
 class MapToCustomerScreen extends ConsumerStatefulWidget {
   const MapToCustomerScreen({super.key});

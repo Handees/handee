@@ -17,7 +17,7 @@ import 'package:handees/shared/utils/utils.dart';
 import 'in_progress_bottom_sheet.dart';
 import 'loading_bottom_sheet.dart';
 
-const maximumArrivalDistance = 30;
+const maximumArrivalDistance = 100;
 
 class TrackingScreen extends ConsumerStatefulWidget {
   const TrackingScreen({Key? key}) : super(key: key);
@@ -35,10 +35,10 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
   void setCustomMarkerIcon() async {
     Uint8List markerIcon =
         await Helpers.getBytesFromAsset("assets/icon/artisan_marker.png", 150);
-    artisanIcon = BitmapDescriptor.fromBytes(markerIcon);
+    artisanIcon = BitmapDescriptor.bytes(markerIcon);
 
     markerIcon = await Helpers.getBytesFromAsset("assets/icon/house.png", 120);
-    destinationIcon = BitmapDescriptor.fromBytes(markerIcon);
+    destinationIcon = BitmapDescriptor.bytes(markerIcon);
   }
 
   List<LatLng> polylineCoords = [];

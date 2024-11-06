@@ -100,7 +100,6 @@ class _InProgressBottomSheetState extends ConsumerState<InProgressBottomSheet>
     );
 
     dPrint(currentMeters);
-    dPrint(totalMeters);
     return GestureDetector(
       onVerticalDragUpdate: (details) {
         setState(() {

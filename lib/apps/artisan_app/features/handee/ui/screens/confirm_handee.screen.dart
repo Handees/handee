@@ -76,7 +76,7 @@ class _ConfirmHandeeScreenState extends ConsumerState<ConfirmHandeeScreen> {
   }
 
   bool isLoading = false;
-  bool isVerified = -1 < 0;
+  bool isVerified = false;
 
   @override
   Widget build(BuildContext context) {
@@ -120,104 +120,98 @@ class _ConfirmHandeeScreenState extends ConsumerState<ConfirmHandeeScreen> {
                 options: paymentOptions,
               ),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                    0, 0, 0, 40
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 64,
-                        child: FilledButton(
-                          onPressed: () {
-                            ref
-                                .read(artisanSocketProvider.notifier)
-                                .cancelOffer(
-                                    ref.read(currentOfferProvider).bookingId);
+                  child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+                child:
+                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 64,
+                            child: FilledButton(
+                              onPressed: () {
+                                ref
+                                    .read(artisanSocketProvider.notifier)
+                                    .cancelOffer(ref
+                                        .read(currentOfferProvider)
+                                        .bookingId);
 
-                            ref.invalidate(handeeApprovalDetailsProvider);
+                                ref.invalidate(handeeApprovalDetailsProvider);
 
-                            Navigator.of(context).pop();
-                          },
-                          style: const ButtonStyle(
-                            backgroundColor: WidgetStatePropertyAll(
-                                Color.fromRGBO(249, 22, 22, 0.05)),
-                          ),
-                          child: Text(
-                            'Cancel Handee',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(
-                                  color: getHexColor('e63946'),
-                                ),
+                                Navigator.of(context).pop();
+                              },
+                              style: const ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll(
+                                    Color.fromRGBO(249, 22, 22, 0.05)),
+                              ),
+                              child: Text(
+                                'Cancel Handee',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: getHexColor('e63946'),
+                                    ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: SizedBox(
-                        height: 64,
-                        child: isVerified
-                            ? FilledButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed(
-                                      ArtisanAppRoutes
-                                          .contractHandeeInProgress);
-                                },
-                                child: Text(
-                                  'Begin Handee',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(
-                                        color: Colors.white,
-                                      ),
-                                ),
-                              )
-                            : FilledButton(
-                                onPressed: isLoading
-                                    ? () {}
-                                    : () => verifyHandeeHandler(context),
-                                child: isLoading
-                                    ? const SizedBox(
-                                        height: 30,
-                                        width: 30,
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    : Text(
-                                        'Verify Handee',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium!
-                                            .copyWith(
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                            height: 64,
+                            child: isVerified
+                                ? FilledButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pushNamed(
+                                          ArtisanAppRoutes
+                                              .contractHandeeInProgress);
+                                    },
+                                    child: Text(
+                                      'Begin Handee',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium!
+                                          .copyWith(
+                                            color: Colors.white,
+                                          ),
+                                    ),
+                                  )
+                                : FilledButton(
+                                    onPressed: isLoading
+                                        ? () {}
+                                        : () => verifyHandeeHandler(context),
+                                    child: isLoading
+                                        ? const SizedBox(
+                                            height: 30,
+                                            width: 30,
+                                            child: CircularProgressIndicator(
                                               color: Colors.white,
                                             ),
-                                      ),
-                              ),
-                      ),
+                                          )
+                                        : Text(
+                                            'Verify Handee',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium!
+                                                .copyWith(
+                                                  color: Colors.white,
+                                                ),
+                                          ),
+                                  ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              )
-                    ]
-                  ),
-                )
-              ),
+                  )
+                ]),
+              )),
               const SizedBox(
                 height: 20,
               ),

@@ -35,10 +35,8 @@ class BookingService {
       },
       body: jsonEncode(
         {
-          // 'lat': lat,
-          // 'lon': lon,
-          'lat': 6.5482333,
-          'lon': 3.3320433,
+          'lat': lat,
+          'lon': lon,
           //TODO: Hook this up with the payment methods screen
           'payment_method': "cash",
           'job_category': category.id,
