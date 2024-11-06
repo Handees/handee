@@ -87,6 +87,10 @@ class CustomerSocket {
     _socket.on(CustomerSocketListenEvents.artisanLocationUpdate, handler);
   }
 
+  void onJobStarted(void Function(dynamic) handler) {
+    _socket.on(CustomerSocketListenEvents.jobStarted, handler);
+  }
+
   void onError(void Function(dynamic) handler) {
     _socket.on('error', handler);
   }

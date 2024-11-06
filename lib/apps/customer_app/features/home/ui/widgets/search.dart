@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:handees/shared/res/shapes.dart';
+import 'package:handees/shared/utils/utils.dart';
 
 class SearchWidget extends StatefulWidget {
-  const SearchWidget({Key? key}) : super(key: key);
-
+  final Function(String) onSearch;
+  const SearchWidget({Key? key, required this.onSearch}) : super(key: key);
   @override
   State<SearchWidget> createState() => _SearchWidgetState();
 }
@@ -51,6 +52,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                   child: TextField(
                     focusNode: focusNode,
                     controller: textController,
+                    onChanged: widget.onSearch,
                     onEditingComplete: () {
                       setState(() {
                         isFocused = false;

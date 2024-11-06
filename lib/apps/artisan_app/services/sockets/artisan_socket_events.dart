@@ -10,4 +10,5 @@ abstract class ArtisanSocketEmitEvents {
   static const String acceptOffer = 'accept_offer';
   static const String cancelOffer = 'cancel_offer';
   static const String requestCustomerApproval = 'request_customer_approval';
+  static const String startJob = "start_job";
 }
