@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:handees/apps/customer_app/features/home/providers/booking.provider.dart';
+import 'package:handees/apps/customer_app/features/home/ui/widgets/pick_service_bottom_sheet.dart';
 import 'package:handees/apps/customer_app/features/home/ui/widgets/service_card.dart';
+import 'package:location/location.dart';
 
 import '../../../../../../shared/data/handees/job_category.dart';
 import '../../../../../../shared/routes/routes.dart';
@@ -25,7 +29,8 @@ Widget buildAppBar(BuildContext context) {
   );
 }
 
-Widget buildHeader(BuildContext context, dynamic user, double horizontalPadding) {
+Widget buildHeader(
+    BuildContext context, dynamic user, double horizontalPadding) {
   return SliverToBoxAdapter(
     child: Padding(
       padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
@@ -36,8 +41,8 @@ Widget buildHeader(BuildContext context, dynamic user, double horizontalPadding)
           Text(
             'Hello ${user.getName()}',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: Theme.of(context).unselectedWidgetColor,
-            ),
+                  color: Theme.of(context).unselectedWidgetColor,
+                ),
           ),
           const SizedBox(height: 8),
           Text(
@@ -83,16 +88,47 @@ Widget buildOngoingServiceHeader(double horizontalPadding) {
   );
 }
 
-Widget buildServiceList(double horizontalPadding, List<JobCategory> filteredCategories) {
+Widget buildServiceList(
+    double horizontalPadding,
+    List<JobCategory> filteredCategories,
+    LocationData location,
+    WidgetRef ref) {
   return SliverPadding(
     padding: const EdgeInsets.only(top: 8.0),
     sliver: SliverList(
       delegate: SliverChildBuilderDelegate(
-            (context, index) {
+        (context, index) {
           final category = filteredCategories[index];
           return InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed(CustomerAppRoutes.review);
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (sheetCtx) {
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(sheetCtx).viewInsets.bottom,
+                    ),
+                    child: PickServiceBottomSheet(
+                      category: filteredCategories[index],
+                      onClick: () {
+                        Navigator.of(context)
+                            .pushNamed(CustomerAppRoutes.pickService)
+                            .then((res) {
+                          if (res != null && location.latitude != null) {
+                            ref.read(bookingProvider.notifier).bookService(
+                                  category: filteredCategories[index],
+                                  location: location,
+                                );
+                            Navigator.of(context)
+                                .pushNamed(CustomerAppRoutes.tracking);
+                          }
+                        });
+                      },
+                    ),
+                  );
+                },
+              );
             },
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -116,4 +152,3 @@ Widget buildServiceList(double horizontalPadding, List<JobCategory> filteredCate
     ),
   );
 }
-
