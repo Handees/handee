@@ -61,7 +61,7 @@ class _PaymentMethodsWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
-        const PaymentMethods(),
+        PaymentMethods(),
       ],
     );
   }

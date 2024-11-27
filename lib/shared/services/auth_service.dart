@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:handees/apps/customer_app/services/storage_service.customer.dart';
 import 'package:handees/shared/utils/utils.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AuthService {
   static final instance = AuthService._(FirebaseAuth.instance);
@@ -21,7 +22,13 @@ class AuthService {
 
   String _token = "";
 
-  String get token => _token;
+  String get token {
+    bool hasExpired = JwtDecoder.isExpired(_token);
+    if (hasExpired) {
+      getToken();
+    }
+    return _token;
+  }
 
   Future<void> getToken() async {
     final User? user = firebaseAuth.currentUser;
@@ -210,32 +217,31 @@ class AuthService {
     await firebaseAuth.signOut();
     cb();
   }
-Future<AuthResponse> resetPassword(String email) async {
-  try {
-    await firebaseAuth.sendPasswordResetEmail(email: email);
-    return AuthResponse.success;
-  } on FirebaseAuthException catch (e) {
-    String message = 'An error occurred';
-    AuthResponse response;
 
-    switch (e.code) {
-      case 'user-not-found':
-        message = 'No user found for that email.';
-        response = AuthResponse.noSuchEmail;
-        break;
-      default:
-        message = 'Auth Exception: $e';
-        response = AuthResponse.unknownError;
+  Future<AuthResponse> resetPassword(String email) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+      return AuthResponse.success;
+    } on FirebaseAuthException catch (e) {
+      String message = 'An error occurred';
+      AuthResponse response;
+
+      switch (e.code) {
+        case 'user-not-found':
+          message = 'No user found for that email.';
+          response = AuthResponse.noSuchEmail;
+          break;
+        default:
+          message = 'Auth Exception: $e';
+          response = AuthResponse.unknownError;
+      }
+
+      debugPrint(message);
+      return response;
+    } catch (e) {
+      final message = 'Auth Exception: $e';
+      debugPrint(message);
+      return AuthResponse.unknownError;
     }
-
-    debugPrint(message);
-    return response;
-  } catch (e) {
-    final message = 'Auth Exception: $e';
-    debugPrint(message);
-    return AuthResponse.unknownError;
   }
 }
-}
-
-
