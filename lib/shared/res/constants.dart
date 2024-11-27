@@ -1,5 +1,5 @@
 abstract class AppConstants {
-  static const url = '20.9.22.141:80'; //'20.9.22.141:5020';
+  static const url = 'handees.com.ng'; //'20.9.22.141:5020';
 
   static const mapsUrl = 'maps.googleapis.com';
 
