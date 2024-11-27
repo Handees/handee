@@ -67,7 +67,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   buildLocationPicker(horizontalPadding),
                   if (!isSearching)
                     buildOngoingServiceHeader(horizontalPadding),
-                  buildServiceList(horizontalPadding, filteredCategories),
+                  buildServiceList(
+                      horizontalPadding, filteredCategories, location, ref),
                 ],
               ),
             ),
